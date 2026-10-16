@@ -134,7 +134,7 @@ export function ImportPage({ leads, setLeads }: ImportPageProps) {
         </p>
       </div>
 
-      <div className="flex p-[4px] bg-white border border-[var(--border)] rounded-[12px] w-fit">
+      <div className="flex p-[4px] bg-white rounded-[12px] w-fit shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         {[
           { id: 'import', label: 'Import' },
           { id: 'enrichment', label: 'Enrichment' },
@@ -155,7 +155,7 @@ export function ImportPage({ leads, setLeads }: ImportPageProps) {
       </div>
 
       {tab === 'import' && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px] flex flex-col gap-[20px]">
+        <div className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="flex items-center gap-[8px]">
             {[
               { n: 1, label: 'Upload' },
@@ -416,7 +416,7 @@ export function ImportPage({ leads, setLeads }: ImportPageProps) {
       )}
 
       {tab === 'enrichment' && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px] flex flex-col gap-[16px]">
+        <div className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="flex justify-between items-center">
             <div className="text-[14px] font-semibold">Enrichment Queue • Simulated verification</div>
             <button className="h-[36px] px-[14px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold text-[#1B4D0F] cursor-pointer">
@@ -455,7 +455,7 @@ export function ImportPage({ leads, setLeads }: ImportPageProps) {
       )}
 
       {tab === 'history' && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+        <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="text-[14px] font-semibold mb-[14px]">Import History</div>
           <div className="overflow-x-auto rounded-[12px] max-w-full">
             <table className="w-full min-w-[700px]">

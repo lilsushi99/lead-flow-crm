@@ -98,8 +98,8 @@ export function DiscoveryPage({ leads, setLeads }: DiscoveryPageProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-[16px]">
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px] flex flex-col gap-[18px]">
-          <div className="text-[15px] font-semibold">Discovery Criteria</div>
+        <div className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[18px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+          <div className="text-[15px] font-semibold text-[var(--text-primary)]">Discovery Criteria</div>
 
           <div>
             <label className="text-[12px] font-medium">Search terms, keywords, hashtags</label>
@@ -124,16 +124,24 @@ export function DiscoveryPage({ leads, setLeads }: DiscoveryPageProps) {
               </div>
             </div>
             <div>
-              <label className="text-[12px] font-medium">Target record limit</label>
+              <div className="flex items-center justify-between">
+                <label className="text-[12px] font-medium text-[var(--text-primary)]">Target record limit</label>
+                <span className="text-[12px] font-semibold text-[#166534] bg-[#EFFBEA] px-[6px] py-[1px] rounded-[5px]">
+                  {limit} records
+                </span>
+              </div>
               <input
                 type="range"
                 min={10}
                 max={500}
                 value={limit}
                 onChange={(e) => setLimit(Number(e.target.value))}
-                className="w-full mt-[12px] accent-[var(--primary)]"
+                className="w-full mt-[10px] h-[6px] bg-[#E7EAE5] rounded-full appearance-none cursor-pointer accent-[#76E05B] focus:outline-none focus:ring-2 focus:ring-[#76E05B]/30"
               />
-              <div className="text-[12px] text-[var(--text-muted)] mt-[2px]">{limit} records</div>
+              <div className="flex justify-between text-[11px] text-[var(--text-muted)] mt-[4px]">
+                <span>10</span>
+                <span>500</span>
+              </div>
             </div>
           </div>
 
@@ -209,7 +217,7 @@ export function DiscoveryPage({ leads, setLeads }: DiscoveryPageProps) {
             </div>
           </div>
 
-          <div className="bg-[var(--bg)] border border-[var(--border)] rounded-[10px] p-[14px] flex items-center justify-between">
+          <div className="bg-[#F7F8F5] rounded-[10px] p-[14px] flex items-center justify-between">
             <div>
               <div className="text-[13px] font-medium">Estimated credit usage</div>
               <div className="text-[12px] text-[var(--text-muted)]">1 credit per lead • {limit} leads requested</div>
@@ -219,22 +227,20 @@ export function DiscoveryPage({ leads, setLeads }: DiscoveryPageProps) {
             </div>
           </div>
 
-          <div className="flex gap-[8px] items-center">
+          <div className="flex items-center">
             <button
+              type="button"
               onClick={startDiscovery}
               disabled={jobStatus === 'Processing' || jobStatus === 'Queued'}
-              className="h-[42px] px-[20px] rounded-[10px] bg-[var(--primary)] text-[#1B2D15] text-[14px] font-semibold hover:bg-[var(--primary-hover)] disabled:opacity-50 flex items-center gap-[8px] cursor-pointer"
+              className="h-[42px] px-[20px] rounded-[10px] bg-[var(--primary)] text-[#1B2D15] text-[14px] font-semibold hover:bg-[var(--primary-hover)] disabled:opacity-50 flex items-center gap-[8px] cursor-pointer transition-colors"
             >
               <Search size={16} />
               Start Discovery
             </button>
-            <span className="text-[12px] text-[var(--text-muted)]">
-              Simulated workflow • No external service connected
-            </span>
           </div>
 
           {jobStatus !== 'Draft' && (
-            <div className="border border-[var(--border)] rounded-[12px] p-[16px] bg-[var(--bg)]">
+            <div className="rounded-[12px] p-[16px] bg-[#F7F8F5]">
               <div className="flex items-center justify-between mb-[10px]">
                 <span className="text-[13px] font-semibold flex items-center gap-[6px]">
                   Job Status: <StatusBadge label={jobStatus} />
@@ -271,8 +277,8 @@ export function DiscoveryPage({ leads, setLeads }: DiscoveryPageProps) {
           )}
 
           {results.length > 0 && (
-            <div className="border border-[var(--border)] rounded-[12px] overflow-hidden">
-              <div className="p-[14px] flex items-center justify-between bg-white border-b border-[var(--border)]">
+            <div className="rounded-[12px] overflow-hidden bg-white shadow-[0_1px_3px_rgba(0,0,0,0.03)] border border-[#F3F5F2]">
+              <div className="p-[14px] flex items-center justify-between bg-white border-b border-[#F3F5F2]">
                 <span className="text-[14px] font-semibold">Discovery Results • {results.length} leads</span>
                 <button
                   onClick={importSelected}
@@ -344,20 +350,20 @@ export function DiscoveryPage({ leads, setLeads }: DiscoveryPageProps) {
         </div>
 
         <div className="flex flex-col gap-[16px]">
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
-            <div className="text-[14px] font-semibold mb-[12px]">How Discovery Works</div>
+          <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+            <div className="text-[14px] font-semibold mb-[12px] text-[var(--text-primary)]">How Discovery Works</div>
             <div className="flex flex-col gap-[10px] text-[12px] text-[var(--text-secondary)]">
               <div className="flex gap-[10px]">
                 <div className="w-[24px] h-[24px] rounded-full bg-[var(--primary-soft)] text-[#2E7D32] flex items-center justify-center text-[11px] font-semibold shrink-0">
                   1
                 </div>
-                Define target audience with keywords, location and sources. No real external API called.
+                Define target audience with keywords, location and sources.
               </div>
               <div className="flex gap-[10px]">
                 <div className="w-[24px] h-[24px] rounded-full bg-[var(--primary-soft)] text-[#2E7D32] flex items-center justify-center text-[11px] font-semibold shrink-0">
                   2
                 </div>
-                System simulates search and validates contacts locally.
+                System searches and validates contacts according to your criteria.
               </div>
               <div className="flex gap-[10px]">
                 <div className="w-[24px] h-[24px] rounded-full bg-[var(--primary-soft)] text-[#2E7D32] flex items-center justify-center text-[11px] font-semibold shrink-0">
@@ -367,8 +373,8 @@ export function DiscoveryPage({ leads, setLeads }: DiscoveryPageProps) {
               </div>
             </div>
           </div>
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
-            <div className="text-[14px] font-semibold mb-[12px]">Discovery History</div>
+          <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+            <div className="text-[14px] font-semibold mb-[12px] text-[var(--text-primary)]">Discovery History</div>
             <div className="flex flex-col">
               {history.map((h) => (
                 <div

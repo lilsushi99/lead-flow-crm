@@ -193,11 +193,12 @@ export function AllLeadsPage({
       </div>
 
       <div className="bg-white rounded-[14px] p-[16px] flex flex-col gap-[14px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
-        <div className="flex flex-col lg:flex-row gap-[12px] justify-between">
-          <div className="relative w-full sm:max-w-[320px] min-w-0">
-            <div className="absolute inset-y-0 left-0 pl-[12px] flex items-center pointer-events-none text-[var(--text-muted)]">
-              <Search size={16} />
-            </div>
+        <div className="flex flex-col xl:flex-row gap-[12px] xl:items-center justify-between">
+          <div className="relative w-full sm:w-[280px] lg:w-[320px] shrink-0">
+            <Search
+              size={16}
+              className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none z-10"
+            />
             <input
               type="text"
               value={search}
@@ -206,20 +207,20 @@ export function AllLeadsPage({
                 setPage(1);
               }}
               placeholder="Search name, email, or company..."
-              className="block w-full h-[38px] pl-[36px] pr-[32px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
+              className="w-full h-[38px] pl-[36px] pr-[32px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all block"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch('')}
-                className="absolute inset-y-0 right-0 pr-[10px] flex items-center text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                className="absolute right-[10px] top-1/2 -translate-y-1/2 p-[2px] text-[var(--text-muted)] hover:text-[var(--text-primary)] rounded-full"
                 aria-label="Clear search"
               >
                 <X size={14} />
               </button>
             )}
           </div>
-          <div className="flex flex-wrap gap-[8px]">
+          <div className="flex flex-wrap items-center gap-[8px] min-w-0">
             {[
               { key: 'source', opts: ['All', ...sources], label: 'Source' },
               { key: 'status', opts: ['All', ...statuses], label: 'Status' },

@@ -109,7 +109,7 @@ export function ListsPage({
         </button>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[16px] flex flex-col gap-[16px]">
+      <div className="bg-white rounded-[14px] p-[16px] flex flex-col gap-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="flex flex-col md:flex-row gap-[12px] justify-between">
           <div className="relative w-full md:max-w-[300px]">
             <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
@@ -117,26 +117,26 @@ export function ListsPage({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search lists..."
-              className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
+              className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)] focus:ring-[2px] focus:ring-[var(--primary-soft)]"
             />
           </div>
           <div className="flex p-[3px] bg-[var(--input-bg)] rounded-[10px] w-fit">
             <button
               onClick={() => setTab('lists')}
-              className={`px-[16px] h-[32px] rounded-[8px] text-[13px] font-medium cursor-pointer ${
+              className={`px-[16px] h-[32px] rounded-[8px] text-[13px] font-medium cursor-pointer transition-all ${
                 tab === 'lists'
-                  ? 'bg-white shadow-sm border border-[var(--border)]'
-                  : 'text-[var(--text-secondary)]'
+                  ? 'bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] text-[var(--text-primary)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
               Saved Lists
             </button>
             <button
               onClick={() => setTab('segments')}
-              className={`px-[16px] h-[32px] rounded-[8px] text-[13px] font-medium cursor-pointer ${
+              className={`px-[16px] h-[32px] rounded-[8px] text-[13px] font-medium cursor-pointer transition-all ${
                 tab === 'segments'
-                  ? 'bg-white shadow-sm border border-[var(--border)]'
-                  : 'text-[var(--text-secondary)]'
+                  ? 'bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] text-[var(--text-primary)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
               Dynamic Segments
@@ -200,7 +200,7 @@ export function ListsPage({
       </div>
 
       {selectedDetail && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+        <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="flex items-center justify-between mb-[16px]">
             <div>
               <div className="text-[16px] font-semibold">{selectedDetail.name}</div>
