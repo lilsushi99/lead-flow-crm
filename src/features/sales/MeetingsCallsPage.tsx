@@ -158,7 +158,7 @@ export function MeetingsCallsPage({
         <div>
           <h1 className="text-[24px] font-semibold tracking-tight">Meetings & Calls</h1>
           <p className="text-[14px] text-[var(--text-secondary)] mt-[2px]">
-            Plan conversations and keep a clear record of customer interactions. Simulated.
+            Plan conversations and keep a clear record of customer interactions.
           </p>
         </div>
         <div className="flex gap-[8px]">
@@ -182,14 +182,14 @@ export function MeetingsCallsPage({
         </div>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[14px] flex flex-col lg:flex-row gap-[10px] justify-between">
+      <div className="bg-white rounded-[14px] p-[14px] flex flex-col lg:flex-row gap-[10px] justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="relative w-full lg:max-w-[280px]">
-          <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+          <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search meetings, leads..."
-            className="w-full h-[38px] pl-[36px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px]"
+            className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
           />
         </div>
         <div className="flex flex-wrap gap-[8px]">
@@ -197,7 +197,7 @@ export function MeetingsCallsPage({
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`h-[32px] px-[12px] rounded-[10px] text-[12px] border cursor-pointer ${
+              className={`h-[32px] px-[12px] rounded-[10px] text-[12px] border cursor-pointer transition-colors ${
                 filter === f
                   ? 'bg-[var(--text-primary)] text-white border-[var(--text-primary)]'
                   : 'bg-white border-[var(--border)]'
@@ -224,7 +224,7 @@ export function MeetingsCallsPage({
         </div>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[14px]">
+      <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="flex flex-col gap-[10px]">
           {filtered.map((m: Meeting) => (
             <div
@@ -286,8 +286,8 @@ export function MeetingsCallsPage({
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-[16px]">
           <div className="w-full max-w-[520px] bg-white rounded-[16px] p-[20px] border border-[var(--border)] max-h-[90vh] overflow-auto">
             <div className="flex justify-between mb-[12px]">
-              <div className="font-semibold">Schedule Meeting (simulated)</div>
-              <button onClick={() => setShowMeeting(false)} className="cursor-pointer">
+              <div className="font-semibold text-[15px]">Schedule Meeting</div>
+              <button onClick={() => setShowMeeting(false)} className="p-[6px] rounded-[8px] bg-[var(--input-bg)] hover:bg-[#EAECE8] cursor-pointer">
                 <X size={16} />
               </button>
             </div>
@@ -303,7 +303,7 @@ export function MeetingsCallsPage({
                   value={newMeeting.title}
                   onChange={(e) => setNewMeeting({ ...newMeeting, title: e.target.value })}
                   placeholder="e.g. Discovery & Needs Assessment"
-                  className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-[var(--border)] focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
+                  className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-transparent focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
                 />
               </div>
               <div className="grid grid-cols-2 gap-[10px]">
@@ -349,7 +349,7 @@ export function MeetingsCallsPage({
                     type="datetime-local"
                     value={newMeeting.startAt}
                     onChange={(e) => setNewMeeting({ ...newMeeting, startAt: e.target.value })}
-                    className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-[var(--border)] focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
+                    className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-transparent focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
                   />
                 </div>
                 <div>
@@ -358,7 +358,7 @@ export function MeetingsCallsPage({
                     type="datetime-local"
                     value={newMeeting.endAt}
                     onChange={(e) => setNewMeeting({ ...newMeeting, endAt: e.target.value })}
-                    className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-[var(--border)] focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
+                    className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-transparent focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
                   />
                 </div>
               </div>
@@ -368,26 +368,23 @@ export function MeetingsCallsPage({
                   value={newMeeting.location}
                   onChange={(e) => setNewMeeting({ ...newMeeting, location: e.target.value })}
                   placeholder="e.g. Google Meet or Lagos HQ Room 2"
-                  className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-[var(--border)] focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
+                  className="w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] text-[var(--text-primary)] border border-transparent focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
                 />
               </div>
             </div>
-            <div className="mt-[14px] flex justify-end gap-[8px]">
+            <div className="mt-[18px] flex justify-end gap-[8px]">
               <button
                 onClick={() => setShowMeeting(false)}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] cursor-pointer"
+                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] hover:bg-[#EAECE8] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddMeeting}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold text-[#1B4D0F] cursor-pointer"
+                className="h-[36px] px-[16px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold text-[#1B4D0F] hover:bg-[var(--primary-hover)] cursor-pointer"
               >
-                Schedule (simulated)
+                Schedule Meeting
               </button>
-            </div>
-            <div className="mt-[8px] text-[11px] text-[var(--text-muted)]">
-              No real calendar provider called.
             </div>
           </div>
         </div>
@@ -436,19 +433,16 @@ export function MeetingsCallsPage({
             <div className="mt-[14px] flex justify-end gap-[8px]">
               <button
                 onClick={() => setShowCall(false)}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] cursor-pointer"
+                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] hover:bg-[#EAECE8] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleLogCall}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold text-[#1B4D0F] cursor-pointer"
+                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold text-[#1B4D0F] hover:bg-[var(--primary-hover)] cursor-pointer"
               >
                 Log Call
               </button>
-            </div>
-            <div className="mt-[8px] text-[11px] text-[var(--text-muted)]">
-              Simulated - no real telephony.
             </div>
           </div>
         </div>

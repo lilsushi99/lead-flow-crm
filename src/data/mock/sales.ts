@@ -56,7 +56,7 @@ export const initialSalesTasks: SalesTask[] = [
 export const initialActivities: Activity[] = [
   { id: 'a1', type: 'Stage Change', summary: 'Moved to Qualified', leadId: 'lead-1', dealId: 'deal-1', leadName: 'Chidi Okoro', dealName: 'Website Redesign - TechCorp', company: 'TechCorp', owner: 'Dominion Castiel', occurredAt: '2h ago', notes: 'New Opportunity → Qualified' },
   { id: 'a2', type: 'Call', summary: 'Intro call - positive', leadId: 'lead-2', dealId: 'deal-2', leadName: 'Amara Bello', dealName: 'CRM Implementation - BrightLabs', company: 'BrightLabs', owner: 'Sarah Okafor', occurredAt: '5h ago', outcome: 'Connected', notes: 'Interested in Q2' },
-  { id: 'a3', type: 'Email', summary: 'Proposal sent', leadId: 'lead-3', dealId: 'deal-3', leadName: 'David Adeyemi', dealName: 'Marketing Automation - Nexus Agency', company: 'Nexus Agency', owner: 'Mark Benson', occurredAt: '1d ago', outcome: 'Sent (simulated)', notes: 'Proposal $12k' },
+  { id: 'a3', type: 'Email', summary: 'Proposal sent', leadId: 'lead-3', dealId: 'deal-3', leadName: 'David Adeyemi', dealName: 'Marketing Automation - Nexus Agency', company: 'Nexus Agency', owner: 'Mark Benson', occurredAt: '1d ago', outcome: 'Sent', notes: 'Proposal $12k' },
   { id: 'a4', type: 'Meeting', summary: 'Demo completed', leadId: 'lead-4', dealId: 'deal-4', leadName: 'Grace Nwachukwu', dealName: 'Brand Identity - Flow Systems', company: 'Flow Systems', owner: 'Aisha Bello', occurredAt: '2d ago', outcome: 'Completed' },
   { id: 'a5', type: 'Note', summary: 'Budget confirmed', leadId: 'lead-5', dealId: 'deal-5', leadName: 'Emeka Eze', dealName: 'SEO & Growth - PixelCraft', company: 'PixelCraft', owner: 'Tunde Cole', occurredAt: '3d ago', notes: 'Budget $8k approved' },
 ];

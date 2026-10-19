@@ -100,14 +100,14 @@ export function DealsPage({
         </button>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[14px] flex flex-col lg:flex-row gap-[10px] justify-between">
+      <div className="bg-white rounded-[14px] p-[14px] flex flex-col lg:flex-row gap-[10px] justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="relative w-full lg:max-w-[280px]">
-          <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+          <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search deal, contact, company..."
-            className="w-full h-[38px] pl-[36px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
+            className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
           />
         </div>
         <div className="flex flex-wrap gap-[8px]">
@@ -130,63 +130,67 @@ export function DealsPage({
         </div>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[900px]">
-            <thead className="text-[11px] text-[var(--text-muted)] bg-[#FBFDFB] border-b border-[var(--border)]">
+      <div className="bg-white rounded-[14px] overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full min-w-[1150px] text-left border-collapse">
+            <thead className="text-[11px] font-semibold text-[var(--text-muted)] bg-[#FBFDFB] border-b border-[var(--border)] uppercase tracking-wider">
               <tr>
-                <th className="text-left p-[10px]">Deal Name</th>
-                <th className="text-left">Lead / Contact</th>
-                <th className="text-left">Company</th>
-                <th className="text-left">Stage</th>
-                <th className="text-left">Value</th>
-                <th className="text-left">Prob</th>
-                <th className="text-left">Expected Close</th>
-                <th className="text-left">Owner</th>
-                <th className="text-left">Branch</th>
-                <th className="text-left">Last Activity</th>
-                <th className="text-left">Actions</th>
+                <th className="p-[12px] w-[50px] text-center">SN</th>
+                <th className="p-[12px] min-w-[180px]">Deal Name</th>
+                <th className="p-[12px] min-w-[150px]">Lead / Contact</th>
+                <th className="p-[12px] min-w-[140px]">Company</th>
+                <th className="p-[12px] min-w-[130px]">Stage</th>
+                <th className="p-[12px] min-w-[120px]">Value</th>
+                <th className="p-[12px] min-w-[90px]">Probability</th>
+                <th className="p-[12px] min-w-[130px]">Expected Close</th>
+                <th className="p-[12px] min-w-[110px]">Owner</th>
+                <th className="p-[12px] min-w-[110px]">Branch</th>
+                <th className="p-[12px] min-w-[110px]">Last Activity</th>
+                <th className="p-[12px] min-w-[90px] text-center">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {filtered.map((d: Deal) => (
-                <tr key={d.id} className="border-b border-[#F3F5F2] hover:bg-[#FBFBF9] text-[13px]">
-                  <td className="p-[10px]">
+            <tbody className="divide-y divide-[#F3F5F2]">
+              {filtered.map((d: Deal, index: number) => (
+                <tr key={d.id} className="hover:bg-[#FBFBF9] text-[13px] transition-colors">
+                  <td className="p-[12px] text-center text-[12px] font-medium text-[var(--text-muted)]">
+                    {index + 1}
+                  </td>
+                  <td className="p-[12px]">
                     <button
                       onClick={() => setSelectedDeal(d)}
-                      className="font-medium hover:underline text-left cursor-pointer"
+                      className="font-medium text-[var(--text-primary)] hover:text-[#16A34A] hover:underline text-left cursor-pointer"
                     >
                       {d.name}
                     </button>
                   </td>
-                  <td className="text-[12px]">{d.leadName}</td>
-                  <td className="text-[12px]">{d.company}</td>
-                  <td>
+                  <td className="p-[12px] text-[12px] text-[var(--text-secondary)]">{d.leadName}</td>
+                  <td className="p-[12px] text-[12px] text-[var(--text-secondary)]">{d.company}</td>
+                  <td className="p-[12px]">
                     <StatusBadge label={d.stage} />
                   </td>
-                  <td className="font-medium text-[12px]">
+                  <td className="p-[12px] font-medium text-[12px] text-[var(--text-primary)]">
                     ${d.value.toLocaleString()} {d.currency}
                   </td>
-                  <td className="text-[11px]">{d.probability}%</td>
-                  <td className="text-[11px] text-[var(--text-muted)]">{d.expectedCloseDate}</td>
-                  <td className="text-[11px]">{d.owner.split(' ')[0]}</td>
-                  <td className="text-[11px]">{d.branch.replace(' Branch', '')}</td>
-                  <td className="text-[11px] text-[var(--text-muted)]">{d.lastActivityAt}</td>
-                  <td>
-                    <div className="flex gap-[6px]">
+                  <td className="p-[12px] text-[11px] text-[var(--text-secondary)]">{d.probability}%</td>
+                  <td className="p-[12px] text-[11px] text-[var(--text-muted)]">{d.expectedCloseDate}</td>
+                  <td className="p-[12px] text-[11px] text-[var(--text-secondary)]">{d.owner.split(' ')[0]}</td>
+                  <td className="p-[12px] text-[11px] text-[var(--text-secondary)]">{d.branch.replace(' Branch', '')}</td>
+                  <td className="p-[12px] text-[11px] text-[var(--text-muted)]">{d.lastActivityAt}</td>
+                  <td className="p-[12px]">
+                    <div className="flex items-center justify-center gap-[6px]">
                       <button
                         onClick={() => setSelectedDeal(d)}
-                        className="h-[28px] w-[28px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center cursor-pointer"
+                        className="h-[28px] w-[28px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center cursor-pointer hover:bg-[#EAECE8] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                         aria-label="View deal details"
                       >
-                        <Eye size={12} />
+                        <Eye size={13} />
                       </button>
                       <button
                         onClick={() => setDeals(deals.filter((x: Deal) => x.id !== d.id))}
-                        className="h-[28px] w-[28px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center cursor-pointer"
+                        className="h-[28px] w-[28px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center cursor-pointer hover:bg-[#FEECEC] text-[var(--text-secondary)] hover:text-[#B91C1C] transition-colors"
                         aria-label="Delete deal"
                       >
-                        <Trash2 size={12} />
+                        <Trash2 size={13} />
                       </button>
                     </div>
                   </td>
@@ -196,8 +200,8 @@ export function DealsPage({
           </table>
         </div>
         {filtered.length === 0 && (
-          <div className="py-[30px] text-center text-[13px] text-[var(--text-muted)]">
-            No matching deals. Clear filters.
+          <div className="py-[36px] text-center text-[13px] text-[var(--text-muted)]">
+            No matching deals. Clear filters to see all records.
           </div>
         )}
       </div>

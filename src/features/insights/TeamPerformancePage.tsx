@@ -157,20 +157,23 @@ export function TeamPerformancePage({
               setMemberFilter('All Members');
               setSearch('');
             }}
-            className="h-[36px] px-[12px] rounded-[10px] bg-white border border-[var(--border)] text-[13px] cursor-pointer hover:bg-[#F3F5F2]"
+            className="h-[36px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] cursor-pointer hover:bg-[#EAECE8]"
           >
             Reset
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[12px]">
+      {/* KPI Cards: Borderless, Soft Shadows, Coordinated Icons */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px]">
         {[
           {
             label: 'Total Leads Handled',
             value: totals.totalLeads,
             sub: `${memberStats.length} members • avg ${Math.round(totals.avgQual)}% qual`,
             icon: Users,
+            bg: 'bg-[#EBF5FF]',
+            iconColor: 'text-[#2563EB]',
           },
           {
             label: 'Deals • Won',
@@ -179,6 +182,8 @@ export function TeamPerformancePage({
               filteredDeals.filter((d: Deal) => !['Closed Won', 'Closed Lost'].includes(d.stage)).length
             } open`,
             icon: BriefcaseBusiness,
+            bg: 'bg-[#EFFBEA]',
+            iconColor: 'text-[#16A34A]',
           },
           {
             label: 'Won Revenue',
@@ -192,42 +197,43 @@ export function TeamPerformancePage({
                 : 0
             } avg`,
             icon: DollarSign,
+            bg: 'bg-[#FEF3C7]',
+            iconColor: 'text-[#D97706]',
           },
           {
             label: 'Outreach & Tasks',
-            value: `${totals.totalCampaigns} campaigns • ${totals.totalTasks} tasks`,
+            value: `${totals.totalCampaigns} • ${totals.totalTasks}`,
             sub: `${activities.length} activities • ${meetings.length} meetings`,
             icon: Mail,
+            bg: 'bg-[#F3E8FF]',
+            iconColor: 'text-[#9333EA]',
           },
         ].map((k) => (
           <div
             key={k.label}
-            className="bg-white border border-[var(--border)] rounded-[12px] p-[14px]"
+            className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[12px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]"
           >
-            <div className="flex items-start justify-between mb-[8px]">
-              <div className="w-[32px] h-[32px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center text-[var(--text-secondary)]">
-                <k.icon size={16} className="text-[var(--text-secondary)]" />
+            <div className="flex items-start justify-between">
+              <span className="text-[13px] text-[var(--text-secondary)] font-medium">{k.label}</span>
+              <div className={`w-[32px] h-[32px] rounded-[9px] ${k.bg} flex items-center justify-center shrink-0`}>
+                <k.icon size={16} className={k.iconColor} />
               </div>
-              <span className="text-[11px] text-[var(--text-muted)]">{k.sub.split('•')[0]}</span>
             </div>
-            <div className="text-[11px] text-[var(--text-muted)] uppercase tracking-[0.06em]">
-              {k.label}
-            </div>
-            <div className="text-[18px] font-semibold mt-[2px]">{k.value}</div>
-            <div className="text-[11px] text-[var(--text-secondary)] mt-[2px]">{k.sub}</div>
+            <div className="text-[26px] font-semibold leading-none tracking-tight">{k.value}</div>
+            <div className="text-[12px] text-[var(--text-muted)]">{k.sub}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[16px]">
+      <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="flex flex-col lg:flex-row gap-[12px] justify-between mb-[14px]">
           <div className="relative w-full lg:max-w-[320px]">
-            <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+            <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search team member..."
-              className="w-full h-[38px] pl-[36px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
+              className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
             />
           </div>
           <div className="text-[12px] text-[var(--text-muted)] flex items-center gap-[6px]">

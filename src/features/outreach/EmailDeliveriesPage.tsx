@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search } from 'lucide-react';
+import { Search, Mail, CheckCircle2, AlertTriangle, XCircle, SearchX } from 'lucide-react';
 import { Delivery } from '../../types/crm';
 import { StatusBadge } from '../../components/shared/StatusBadge';
 import { Dropdown } from '../../components/shared/Dropdown';
@@ -38,33 +38,65 @@ export function EmailDeliveriesPage({ deliveries }: EmailDeliveriesPageProps) {
       <div>
         <h1 className="text-[24px] font-semibold tracking-tight">Email Deliveries</h1>
         <p className="text-[14px] text-[var(--text-secondary)] mt-[2px]">
-          Monitor delivery status across campaigns. Simulated data.
+          Monitor delivery status across campaigns.
         </p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[12px]">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px]">
         {[
-          { label: 'Total', value: total },
-          { label: 'Delivered', value: delivered },
-          { label: 'Bounced', value: bounced },
-          { label: 'Failed', value: failed },
+          {
+            label: 'Total',
+            value: total,
+            icon: Mail,
+            bg: 'bg-[#EBF5FF]',
+            iconColor: 'text-[#2563EB]',
+          },
+          {
+            label: 'Delivered',
+            value: delivered,
+            icon: CheckCircle2,
+            bg: 'bg-[#EFFBEA]',
+            iconColor: 'text-[#16A34A]',
+          },
+          {
+            label: 'Bounced',
+            value: bounced,
+            icon: AlertTriangle,
+            bg: 'bg-[#FEF3C7]',
+            iconColor: 'text-[#D97706]',
+          },
+          {
+            label: 'Failed',
+            value: failed,
+            icon: XCircle,
+            bg: 'bg-[#FEE2E2]',
+            iconColor: 'text-[#DC2626]',
+          },
         ].map((s) => (
-          <div key={s.label} className="bg-white border border-[var(--border)] rounded-[12px] p-[14px]">
-            <div className="text-[11px] text-[var(--text-muted)] uppercase tracking-[0.06em]">{s.label}</div>
-            <div className="text-[20px] font-semibold mt-[4px]">{s.value}</div>
+          <div
+            key={s.label}
+            className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[12px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]"
+          >
+            <div className="flex justify-between items-start">
+              <span className="text-[13px] text-[var(--text-secondary)] font-medium">{s.label}</span>
+              <div className={`w-[32px] h-[32px] rounded-[9px] ${s.bg} flex items-center justify-center shrink-0`}>
+                <s.icon size={16} className={s.iconColor} />
+              </div>
+            </div>
+            <div className="text-[26px] font-semibold leading-none tracking-tight">{s.value.toLocaleString()}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[16px]">
+      <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="flex flex-col lg:flex-row gap-[12px] justify-between mb-[14px]">
           <div className="relative w-full lg:max-w-[320px]">
-            <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+            <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search recipient, email, campaign..."
-              className="w-full h-[38px] pl-[36px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
+              className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
             />
           </div>
           <div className="flex gap-[8px]">
@@ -116,8 +148,9 @@ export function EmailDeliveriesPage({ deliveries }: EmailDeliveriesPageProps) {
         </div>
 
         {filtered.length === 0 && (
-          <div className="py-[30px] text-center text-[13px] text-[var(--text-muted)]">
-            No matching deliveries.
+          <div className="py-[40px] flex flex-col items-center text-center">
+            <SearchX size={20} className="text-[var(--text-muted)] mb-[8px]" />
+            <div className="text-[13px] text-[var(--text-muted)]">No matching deliveries. Clear filters to see all.</div>
           </div>
         )}
       </div>

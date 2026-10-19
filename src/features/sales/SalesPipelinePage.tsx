@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Plus, Search, MoreHorizontal, X } from 'lucide-react';
+import { Plus, Search, ChevronLeft, ChevronRight, TrendingUp, CheckCircle2, XCircle, Target, X } from 'lucide-react';
 import { Deal, DealStage, SalesTaskPriority, Activity } from '../../types/crm';
 import { StatusBadge } from '../../components/shared/StatusBadge';
 import { Dropdown } from '../../components/shared/Dropdown';
@@ -12,6 +12,14 @@ interface SalesPipelinePageProps {
   activities: Activity[];
   setActivities: React.Dispatch<React.SetStateAction<Activity[]>>;
 }
+
+const PIPELINE_ORDER: DealStage[] = [
+  'New Opportunity',
+  'Qualified',
+  'Proposal',
+  'Negotiation',
+  'Closed Won',
+];
 
 export function SalesPipelinePage({
   deals,
@@ -120,6 +128,27 @@ export function SalesPipelinePage({
     }
   };
 
+  const handleMoveStage = (dealId: string, direction: 'prev' | 'next') => {
+    const deal = deals.find((d: Deal) => d.id === dealId);
+    if (!deal) return;
+
+    if (deal.stage === 'Closed Lost') {
+      if (direction === 'prev') {
+        handleStageChange(dealId, 'Negotiation');
+      }
+      return;
+    }
+
+    const curIdx = PIPELINE_ORDER.indexOf(deal.stage);
+    if (curIdx === -1) return;
+
+    if (direction === 'prev' && curIdx > 0) {
+      handleStageChange(dealId, PIPELINE_ORDER[curIdx - 1]);
+    } else if (direction === 'next' && curIdx < PIPELINE_ORDER.length - 1) {
+      handleStageChange(dealId, PIPELINE_ORDER[curIdx + 1]);
+    }
+  };
+
   const handleAddDeal = () => {
     if (!newDeal.name || !newDeal.company || !newDeal.value) return;
     const lead =
@@ -167,45 +196,74 @@ export function SalesPipelinePage({
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="h-[40px] px-[18px] rounded-[10px] bg-[var(--primary)] text-[#1B2D15] text-[14px] font-semibold flex items-center gap-[8px] hover:bg-[var(--primary-hover)] cursor-pointer"
+          className="h-[40px] px-[18px] rounded-[10px] bg-[var(--primary)] text-[#1B2D15] text-[14px] font-semibold flex items-center gap-[8px] hover:bg-[var(--primary-hover)] cursor-pointer transition-colors"
         >
           <Plus size={16} />
           Add Deal
         </button>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[12px]">
+      {/* KPI Cards: Borderless, Soft Shadows, Coordinated Icons */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px]">
         {[
-          { label: 'Open Pipeline Value', value: `$${openValue.toLocaleString()}` },
+          {
+            label: 'Open Pipeline Value',
+            value: `$${openValue.toLocaleString()}`,
+            sub: `${filteredDeals.filter((d: Deal) => !['Closed Won', 'Closed Lost'].includes(d.stage)).length} open deals`,
+            icon: TrendingUp,
+            bg: 'bg-[#EBF5FF]',
+            iconColor: 'text-[#2563EB]',
+          },
           {
             label: 'Deals Won',
-            value: `${wonDeals.length} • $${wonDeals
-              .reduce((s: number, d: Deal) => s + d.value, 0)
-              .toLocaleString()}`,
+            value: `$${wonDeals.reduce((s: number, d: Deal) => s + d.value, 0).toLocaleString()}`,
+            sub: `${wonDeals.length} won deals`,
+            icon: CheckCircle2,
+            bg: 'bg-[#EFFBEA]',
+            iconColor: 'text-[#16A34A]',
           },
           {
             label: 'Deals Lost',
-            value: `${lostDeals.length} • $${lostDeals
-              .reduce((s: number, d: Deal) => s + d.value, 0)
-              .toLocaleString()}`,
+            value: `$${lostDeals.reduce((s: number, d: Deal) => s + d.value, 0).toLocaleString()}`,
+            sub: `${lostDeals.length} lost deals`,
+            icon: XCircle,
+            bg: 'bg-[#FEE2E2]',
+            iconColor: 'text-[#DC2626]',
           },
-          { label: 'Expected Close Value', value: `$${Math.round(expectedClose).toLocaleString()}` },
+          {
+            label: 'Expected Closed Value',
+            value: `$${Math.round(expectedClose).toLocaleString()}`,
+            sub: 'Weighted forecast',
+            icon: Target,
+            bg: 'bg-[#FEF3C7]',
+            iconColor: 'text-[#D97706]',
+          },
         ].map((s) => (
-          <div key={s.label} className="bg-white border border-[var(--border)] rounded-[12px] p-[14px]">
-            <div className="text-[11px] text-[var(--text-muted)] uppercase tracking-[0.06em]">{s.label}</div>
-            <div className="text-[18px] font-semibold mt-[4px]">{s.value}</div>
+          <div
+            key={s.label}
+            className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[12px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]"
+          >
+            <div className="flex justify-between items-start">
+              <span className="text-[13px] text-[var(--text-secondary)] font-medium">{s.label}</span>
+              <div className={`w-[32px] h-[32px] rounded-[9px] ${s.bg} flex items-center justify-center shrink-0`}>
+                <s.icon size={16} className={s.iconColor} />
+              </div>
+            </div>
+            <div className="text-[26px] font-semibold leading-none tracking-tight">{s.value}</div>
+            <div className="text-[12px] text-[var(--text-muted)]">{s.sub}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[14px] flex flex-col lg:flex-row gap-[10px] justify-between">
+      {/* Toolbar: Borderless, Soft Shadow */}
+      <div className="bg-white rounded-[14px] p-[14px] flex flex-col lg:flex-row gap-[10px] justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="relative w-full lg:max-w-[280px]">
-          <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+          <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search deal, company, lead..."
-            className="w-full h-[38px] pl-[36px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
+            className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
           />
         </div>
         <div className="flex flex-wrap gap-[8px]">
@@ -226,75 +284,106 @@ export function SalesPipelinePage({
         </div>
       </div>
 
-      <div className="flex gap-[12px] overflow-x-auto pb-[12px]">
-        {dealStages.map((stage) => {
-          const stageDeals = grouped[stage] || [];
-          const stageValue = stageDeals.reduce((s: number, d: Deal) => s + d.value, 0);
-          return (
-            <div
-              key={stage}
-              className="min-w-[300px] w-[300px] bg-[#FBFDFB] border border-[var(--border)] rounded-[14px] flex flex-col"
-            >
-              <div className="p-[12px] border-b border-[var(--border)] bg-white rounded-t-[14px]">
-                <div className="flex items-center justify-between">
-                  <div className="font-medium text-[13px]">{stage}</div>
-                  <StatusBadge label={stage} />
+      {/* Outer Pipeline Board Container: Borderless, Soft Shadow */}
+      <div className="bg-white rounded-[16px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+        <div className="flex gap-[14px] overflow-x-auto pb-[6px]">
+          {dealStages.map((stage) => {
+            const stageDeals = grouped[stage] || [];
+            const stageValue = stageDeals.reduce((s: number, d: Deal) => s + d.value, 0);
+            return (
+              <div
+                key={stage}
+                className="min-w-[300px] w-[300px] bg-[#F7F8F5] border border-[var(--border)] rounded-[14px] flex flex-col shrink-0"
+              >
+                <div className="p-[12px] border-b border-[var(--border)] bg-white rounded-t-[14px]">
+                  <div className="flex items-center justify-between">
+                    <div className="font-semibold text-[13px] text-[var(--text-primary)]">{stage}</div>
+                    <StatusBadge label={stage} />
+                  </div>
+                  <div className="mt-[6px] flex items-center gap-[8px] text-[11px] text-[var(--text-muted)]">
+                    <span>{stageDeals.length} deals</span>
+                    <span>•</span>
+                    <span className="font-medium text-[var(--text-secondary)]">${stageValue.toLocaleString()}</span>
+                  </div>
                 </div>
-                <div className="mt-[6px] flex items-center gap-[8px] text-[11px] text-[var(--text-muted)]">
-                  <span>{stageDeals.length} deals</span>
-                  <span>•</span>
-                  <span>${stageValue.toLocaleString()}</span>
-                </div>
-              </div>
-              <div className="flex-1 p-[10px] flex flex-col gap-[10px] overflow-y-auto max-h-[620px]">
-                {stageDeals.map((d: Deal) => (
-                  <div
-                    key={d.id}
-                    onClick={() => setSelectedDeal(d)}
-                    className="bg-white border border-[var(--border)] rounded-[12px] p-[12px] cursor-pointer hover:border-[#C5D6C1] transition-colors"
-                  >
-                    <div className="flex justify-between gap-[8px]">
-                      <div className="font-medium text-[13px] leading-tight">{d.name}</div>
-                      <Dropdown
-                        trigger={
-                          <div
-                            onClick={(e) => e.stopPropagation()}
-                            className="p-[4px] rounded-[6px] hover:bg-[var(--input-bg)] cursor-pointer"
-                          >
-                            <MoreHorizontal size={14} />
+                <div className="flex-1 p-[10px] flex flex-col gap-[10px] overflow-y-auto max-h-[620px]">
+                  {stageDeals.map((d: Deal) => {
+                    const isTerminal = d.stage === 'Closed Won' || d.stage === 'Closed Lost';
+                    const isInitial = d.stage === 'New Opportunity';
+                    const canMovePrev = d.stage === 'Closed Lost' || (!isInitial && PIPELINE_ORDER.includes(d.stage));
+                    const canMoveNext = !isTerminal && PIPELINE_ORDER.includes(d.stage);
+
+                    return (
+                      <div
+                        key={d.id}
+                        onClick={() => setSelectedDeal(d)}
+                        className="bg-white border border-[var(--border)] rounded-[12px] p-[12px] cursor-pointer hover:border-[#C5D6C1] hover:shadow-[0_2px_6px_rgba(0,0,0,0.04)] transition-all"
+                      >
+                        <div className="flex items-start justify-between gap-[8px]">
+                          <div className="font-medium text-[13px] leading-tight text-[var(--text-primary)]">
+                            {d.name}
                           </div>
-                        }
-                        options={dealStages}
-                        value={d.stage}
-                        onSelect={(newStage) => handleStageChange(d.id, newStage as DealStage)}
-                      />
-                    </div>
-                    <div className="text-[12px] text-[var(--text-secondary)] mt-[4px]">
-                      {d.company} • {d.leadName}
-                    </div>
-                    <div className="mt-[8px] flex items-center justify-between">
-                      <div className="text-[12px] font-semibold">
-                        ${d.value.toLocaleString()} {d.currency}
+                          {/* Compact left and right arrow controls */}
+                          <div
+                            className="flex items-center gap-[4px] shrink-0"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <button
+                              type="button"
+                              disabled={!canMovePrev}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleMoveStage(d.id, 'prev');
+                              }}
+                              className="w-[24px] h-[24px] rounded-[6px] bg-[var(--input-bg)] hover:bg-[#EAECE8] disabled:opacity-25 disabled:cursor-not-allowed flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                              title="Move to previous stage"
+                              aria-label="Previous stage"
+                            >
+                              <ChevronLeft size={14} />
+                            </button>
+                            <button
+                              type="button"
+                              disabled={!canMoveNext}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleMoveStage(d.id, 'next');
+                              }}
+                              className="w-[24px] h-[24px] rounded-[6px] bg-[var(--input-bg)] hover:bg-[#EAECE8] disabled:opacity-25 disabled:cursor-not-allowed flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                              title="Advance to next stage"
+                              aria-label="Next stage"
+                            >
+                              <ChevronRight size={14} />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="text-[12px] text-[var(--text-secondary)] mt-[4px]">
+                          {d.company} • {d.leadName}
+                        </div>
+                        <div className="mt-[8px] flex items-center justify-between">
+                          <div className="text-[12px] font-semibold text-[var(--text-primary)]">
+                            ${d.value.toLocaleString()} {d.currency}
+                          </div>
+                          <StatusBadge label={d.priority} />
+                        </div>
+                        <div className="mt-[8px] flex items-center justify-between text-[11px] text-[var(--text-muted)]">
+                          <span>Close {d.expectedCloseDate}</span>
+                          <span>{d.owner.split(' ')[0]}</span>
+                        </div>
                       </div>
-                      <StatusBadge label={d.priority} />
+                    );
+                  })}
+                  {stageDeals.length === 0 && (
+                    <div className="py-[24px] text-center text-[12px] text-[var(--text-muted)]">
+                      No deals in this stage.
+                      <br />
+                      Clear filters or add a deal.
                     </div>
-                    <div className="mt-[8px] flex items-center justify-between text-[11px] text-[var(--text-muted)]">
-                      <span>Close {d.expectedCloseDate}</span>
-                      <span>{d.owner.split(' ')[0]}</span>
-                    </div>
-                  </div>
-                ))}
-                {stageDeals.length === 0 && (
-                  <div className="py-[24px] text-center text-[12px] text-[var(--text-muted)]">
-                    No deals in this stage.
-                    <br />
-                    Clear filters or add a deal.
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       {selectedDeal && (
@@ -463,20 +552,17 @@ export function SalesPipelinePage({
             <div className="mt-[14px] flex justify-end gap-[8px]">
               <button
                 onClick={() => setShowAdd(false)}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] cursor-pointer"
+                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] hover:bg-[#EAECE8] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddDeal}
                 disabled={!newDeal.name || !newDeal.company || !newDeal.value}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold disabled:opacity-50 text-[#1B4D0F] cursor-pointer"
+                className="h-[36px] px-[16px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold disabled:opacity-50 text-[#1B4D0F] hover:bg-[var(--primary-hover)] cursor-pointer"
               >
                 Create Deal
               </button>
-            </div>
-            <div className="mt-[8px] text-[11px] text-[var(--text-muted)]">
-              Simulated - local demo only. No real CRM write.
             </div>
           </div>
         </div>

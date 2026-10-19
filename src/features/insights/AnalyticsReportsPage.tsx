@@ -241,14 +241,14 @@ export function AnalyticsReportsPage({
               setSourceFilter('All');
               setStatusFilter('All');
             }}
-            className="h-[36px] px-[12px] rounded-[10px] bg-white border border-[var(--border)] text-[13px] cursor-pointer hover:bg-[#F3F5F2]"
+            className="h-[36px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] cursor-pointer hover:bg-[#EAECE8]"
           >
             Reset
           </button>
         </div>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[4px] w-fit flex gap-[4px]">
+      <div className="bg-white rounded-[12px] p-[4px] w-fit flex gap-[4px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         {(['overview', 'acquisition', 'pipeline', 'outreach'] as const).map((t) => (
           <button
             key={t}
@@ -264,8 +264,8 @@ export function AnalyticsReportsPage({
         ))}
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[12px]">
+      {/* KPI Cards: Borderless, Soft Shadows, Coordinated Icons */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[14px]">
         {[
           {
             label: 'Total Leads',
@@ -273,6 +273,8 @@ export function AnalyticsReportsPage({
             sub: `${qualifiedLeads} qualified`,
             trend: `+${Math.round(qualificationRate)}% qual`,
             icon: UsersRound,
+            bg: 'bg-[#EBF5FF]',
+            iconColor: 'text-[#2563EB]',
           },
           {
             label: 'Qualification Rate',
@@ -280,6 +282,8 @@ export function AnalyticsReportsPage({
             sub: `${contactRate.toFixed(0)}% contacted`,
             trend: `${conversionRate.toFixed(1)}% converted`,
             icon: Award,
+            bg: 'bg-[#EFFBEA]',
+            iconColor: 'text-[#16A34A]',
           },
           {
             label: 'Open Pipeline Value',
@@ -287,6 +291,8 @@ export function AnalyticsReportsPage({
             sub: `${openDeals.length} open deals`,
             trend: `$${Math.round(expectedCloseValue).toLocaleString()} expected`,
             icon: DollarSign,
+            bg: 'bg-[#FEF3C7]',
+            iconColor: 'text-[#D97706]',
           },
           {
             label: 'Won Revenue',
@@ -294,6 +300,8 @@ export function AnalyticsReportsPage({
             sub: `${wonDeals.length} won • ${winRate.toFixed(0)}% win rate`,
             trend: `Avg $${avgDealValue.toLocaleString()}`,
             icon: TrendingUp,
+            bg: 'bg-[#EFFBEA]',
+            iconColor: 'text-[#16A34A]',
           },
           {
             label: 'Emails Delivered',
@@ -301,6 +309,8 @@ export function AnalyticsReportsPage({
             sub: `${deliveryRate.toFixed(0)}% delivery • ${deliveredCount}/${filteredDeliveries.length}`,
             trend: `${avgOpen}% avg open • ${avgClick}% click`,
             icon: Mail,
+            bg: 'bg-[#EBF5FF]',
+            iconColor: 'text-[#2563EB]',
           },
           {
             label: 'Campaigns Active',
@@ -308,6 +318,8 @@ export function AnalyticsReportsPage({
             sub: `${filteredCampaigns.length} total`,
             trend: `${filteredCampaigns.filter((c: Campaign) => c.status === 'Sent').length} sent`,
             icon: BarChart3,
+            bg: 'bg-[#F3E8FF]',
+            iconColor: 'text-[#9333EA]',
           },
           {
             label: 'Activities Logged',
@@ -315,6 +327,8 @@ export function AnalyticsReportsPage({
             sub: `${meetings.length} meetings • ${salesTasks.length} tasks`,
             trend: `${topActivities[0]?.type || '-'} top`,
             icon: ActivityIcon,
+            bg: 'bg-[#E0E7FF]',
+            iconColor: 'text-[#4F46E5]',
           },
           {
             label: 'Conversion Rate',
@@ -322,16 +336,18 @@ export function AnalyticsReportsPage({
             sub: `${completedLeads} completed`,
             trend: `${lostDeals.length} lost deals`,
             icon: Target,
+            bg: 'bg-[#EFFBEA]',
+            iconColor: 'text-[#16A34A]',
           },
         ].map((k) => (
           <div
             key={k.label}
-            className="bg-white border border-[var(--border)] rounded-[12px] p-[16px] flex flex-col gap-[10px]"
+            className="bg-white rounded-[14px] p-[18px] flex flex-col gap-[10px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]"
           >
             <div className="flex items-start justify-between">
               <span className="text-[13px] text-[var(--text-secondary)] font-medium">{k.label}</span>
-              <div className="w-[32px] h-[32px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center text-[var(--text-secondary)]">
-                <k.icon size={16} className="text-[var(--text-secondary)]" />
+              <div className={`w-[32px] h-[32px] rounded-[9px] ${k.bg} flex items-center justify-center shrink-0`}>
+                <k.icon size={16} className={k.iconColor} />
               </div>
             </div>
             <div className="text-[22px] font-semibold leading-none tracking-tight">{k.value}</div>
@@ -348,7 +364,7 @@ export function AnalyticsReportsPage({
       {reportTab === 'overview' && (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-[16px]">
-            <div className="lg:col-span-2 bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+            <div className="lg:col-span-2 bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="flex items-center justify-between mb-[16px]">
                 <div className="text-[15px] font-semibold">
                   Lead Acquisition & Revenue Trend • {dateFilter}
@@ -382,7 +398,7 @@ export function AnalyticsReportsPage({
                 </ResponsiveContainer>
               </div>
             </div>
-            <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px] flex flex-col">
+            <div className="bg-white rounded-[14px] p-[20px] flex flex-col shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="text-[15px] font-semibold mb-[16px]">Lead Status Funnel</div>
               <div className="h-[200px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -418,7 +434,7 @@ export function AnalyticsReportsPage({
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
-            <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+            <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="text-[15px] font-semibold mb-[14px]">Branch Performance</div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[500px]">
@@ -453,7 +469,7 @@ export function AnalyticsReportsPage({
                 </table>
               </div>
             </div>
-            <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+            <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="text-[15px] font-semibold mb-[14px]">Top Campaigns</div>
               <div className="flex flex-col gap-[10px]">
                 {campaignPerformance.slice(0, 5).map((c: any) => (
@@ -490,7 +506,7 @@ export function AnalyticsReportsPage({
 
       {reportTab === 'acquisition' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+          <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
             <div className="text-[15px] font-semibold mb-[14px]">Lead Source Performance</div>
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -532,7 +548,7 @@ export function AnalyticsReportsPage({
               </table>
             </div>
           </div>
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+          <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
             <div className="text-[15px] font-semibold mb-[14px]">Lead Qualification & Conversion</div>
             <div className="grid grid-cols-3 gap-[10px] mb-[16px]">
               {[
@@ -573,7 +589,7 @@ export function AnalyticsReportsPage({
 
       {reportTab === 'pipeline' && (
         <div className="grid grid-cols-1 gap-[16px]">
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+          <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
             <div className="text-[15px] font-semibold mb-[14px]">Sales Pipeline Performance by Stage</div>
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -598,7 +614,7 @@ export function AnalyticsReportsPage({
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
-            <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+            <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="text-[15px] font-semibold mb-[14px]">Revenue Trends • {dateFilter}</div>
               <div className="h-[220px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -628,7 +644,7 @@ export function AnalyticsReportsPage({
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+            <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="text-[15px] font-semibold mb-[14px]">Recent Deals • {branchFilter}</div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[500px]">
@@ -670,7 +686,7 @@ export function AnalyticsReportsPage({
 
       {reportTab === 'outreach' && (
         <div className="grid grid-cols-1 gap-[16px]">
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+          <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
             <div className="text-[15px] font-semibold mb-[14px]">Outreach Campaign Performance</div>
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -719,7 +735,7 @@ export function AnalyticsReportsPage({
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
-            <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+            <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="text-[15px] font-semibold mb-[14px]">
                 Delivery Performance • {filteredDeliveries.length} deliveries
               </div>
@@ -773,7 +789,7 @@ export function AnalyticsReportsPage({
                 </table>
               </div>
             </div>
-            <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+            <div className="bg-white rounded-[14px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <div className="text-[15px] font-semibold mb-[14px]">Activity Metrics</div>
               <div className="grid grid-cols-2 gap-[10px] mb-[14px]">
                 {topActivities.map((a: any) => (
@@ -798,8 +814,7 @@ export function AnalyticsReportsPage({
                 </div>
               </div>
               <div className="text-[12px] text-[var(--text-muted)]">
-                Outreach and activity metrics derived from campaigns, deliveries, tasks, meetings, and activity
-                logs. Simulated data - no real email provider.
+                Outreach and activity metrics derived from campaigns, deliveries, tasks, meetings, and activity logs.
               </div>
             </div>
           </div>

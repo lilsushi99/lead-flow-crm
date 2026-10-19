@@ -105,7 +105,7 @@ export function TasksActivitiesPage({
       owner: newActivity.owner,
       occurredAt: 'Now',
       outcome:
-        newActivity.outcome || (newActivity.type === 'Email' ? 'Sent (simulated)' : 'Logged'),
+        newActivity.outcome || (newActivity.type === 'Email' ? 'Sent' : 'Logged'),
       notes: '',
     };
     setActivities([act, ...activities]);
@@ -171,19 +171,23 @@ export function TasksActivitiesPage({
         </div>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[4px] w-fit flex gap-[4px]">
+      <div className="bg-white rounded-[12px] p-[4px] w-fit flex gap-[4px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <button
           onClick={() => setTab('tasks')}
-          className={`h-[32px] px-[14px] rounded-[10px] text-[13px] font-medium cursor-pointer ${
-            tab === 'tasks' ? 'bg-[var(--text-primary)] text-white' : 'text-[var(--text-muted)]'
+          className={`h-[32px] px-[16px] rounded-[8px] text-[13px] font-medium cursor-pointer transition-all ${
+            tab === 'tasks'
+              ? 'bg-[var(--text-primary)] text-white font-semibold'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
           }`}
         >
           Tasks
         </button>
         <button
           onClick={() => setTab('activities')}
-          className={`h-[32px] px-[14px] rounded-[10px] text-[13px] font-medium cursor-pointer ${
-            tab === 'activities' ? 'bg-[var(--text-primary)] text-white' : 'text-[var(--text-muted)]'
+          className={`h-[32px] px-[16px] rounded-[8px] text-[13px] font-medium cursor-pointer transition-all ${
+            tab === 'activities'
+              ? 'bg-[var(--text-primary)] text-white font-semibold'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
           }`}
         >
           Activity History
@@ -191,15 +195,15 @@ export function TasksActivitiesPage({
       </div>
 
       {tab === 'tasks' ? (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[14px]">
+        <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="flex flex-col lg:flex-row gap-[10px] justify-between mb-[14px]">
             <div className="relative w-full lg:max-w-[280px]">
-              <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+              <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search tasks..."
-                className="w-full h-[38px] pl-[36px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px]"
+                className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
               />
             </div>
             <div className="flex flex-wrap gap-[6px]">
@@ -285,7 +289,7 @@ export function TasksActivitiesPage({
           )}
         </div>
       ) : (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[14px]">
+        <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="flex flex-col gap-[8px]">
             {activities.map((a: Activity) => (
               <div
@@ -313,7 +317,7 @@ export function TasksActivitiesPage({
               </div>
             ))}
             {activities.length === 0 && (
-              <div className="text-[12px] text-[var(--text-muted)]">
+              <div className="text-[12px] text-[var(--text-muted)] py-[16px] text-center">
                 No activity history yet. Log an activity to start.
               </div>
             )}
@@ -323,10 +327,14 @@ export function TasksActivitiesPage({
 
       {showLog && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-[16px]">
-          <div className="w-full max-w-[480px] bg-white rounded-[16px] p-[20px] border border-[var(--border)]">
+          <div className="w-full max-w-[480px] bg-white rounded-[16px] p-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
             <div className="flex justify-between mb-[12px]">
-              <div className="font-semibold">Log Activity (simulated)</div>
-              <button onClick={() => setShowLog(false)} className="cursor-pointer">
+              <div className="font-semibold text-[16px] text-[var(--text-primary)]">Log Activity</div>
+              <button
+                onClick={() => setShowLog(false)}
+                className="w-[32px] h-[32px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center cursor-pointer text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                aria-label="Close dialog"
+              >
                 <X size={16} />
               </button>
             </div>
@@ -379,19 +387,16 @@ export function TasksActivitiesPage({
             <div className="mt-[14px] flex justify-end gap-[8px]">
               <button
                 onClick={() => setShowLog(false)}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] cursor-pointer"
+                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--input-bg)] text-[13px] hover:bg-[#EAECE8] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleLog}
-                className="h-[36px] px-[14px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold text-[#1B4D0F] cursor-pointer"
+                className="h-[36px] px-[16px] rounded-[10px] bg-[var(--primary)] text-[13px] font-semibold text-[#1B4D0F] hover:bg-[var(--primary-hover)] cursor-pointer"
               >
                 Log Activity
               </button>
-            </div>
-            <div className="mt-[8px] text-[11px] text-[var(--text-muted)]">
-              Simulated - no real email sent.
             </div>
           </div>
         </div>
