@@ -225,36 +225,36 @@ export function TeamAssignmentsPage({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[12px]">
+      {/* KPI Cards: Borderless, Soft Shadows, Coordinated Icons */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px]">
         {[
-          { label: 'Total Members', value: teamMembers.length, sub: `${teamMembers.filter((m: TeamMemberDetail) => m.status === 'Active').length} active`, icon: Users },
-          { label: 'Total Assignments', value: leads.length + deals.length, sub: `${leads.length} leads • ${deals.length} deals`, icon: ClipboardList },
-          { label: 'High Workload', value: memberStats.filter((m: any) => m.workload === 'High').length, sub: `${memberStats.filter((m: any) => m.workload === 'Medium').length} medium • ${memberStats.filter((m: any) => m.workload === 'Low').length} low`, icon: Activity },
-          { label: 'Branches Covered', value: new Set(teamMembers.map((m: TeamMemberDetail) => m.branch)).size, sub: `${branchList.length - 1} total branches`, icon: Building2 },
+          { label: 'Total Members', value: teamMembers.length, sub: `${teamMembers.filter((m: TeamMemberDetail) => m.status === 'Active').length} active`, icon: Users, bg: 'bg-[#EBF5FF]', iconColor: 'text-[#2563EB]' },
+          { label: 'Total Assignments', value: leads.length + deals.length, sub: `${leads.length} leads • ${deals.length} deals`, icon: ClipboardList, bg: 'bg-[#EFFBEA]', iconColor: 'text-[#16A34A]' },
+          { label: 'Workload', value: memberStats.filter((m: any) => m.workload === 'High').length, sub: `${memberStats.filter((m: any) => m.workload === 'Medium').length} medium • ${memberStats.filter((m: any) => m.workload === 'Low').length} low`, icon: Activity, bg: 'bg-[#FEF3C7]', iconColor: 'text-[#D97706]' },
+          { label: 'Branches Covered', value: new Set(teamMembers.map((m: TeamMemberDetail) => m.branch)).size, sub: `${branchList.length - 1} total branches`, icon: Building2, bg: 'bg-[#F3E8FF]', iconColor: 'text-[#9333EA]' },
         ].map(k => (
-          <div key={k.label} className="bg-white border border-[var(--border)] rounded-[12px] p-[14px]">
-            <div className="flex items-start justify-between mb-[8px]">
-              <div className="w-[32px] h-[32px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center text-[var(--text-secondary)]">
-                <k.icon size={16} className="text-[var(--text-secondary)]" />
+          <div key={k.label} className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[12px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+            <div className="flex items-start justify-between">
+              <span className="text-[13px] text-[var(--text-secondary)] font-medium">{k.label}</span>
+              <div className={`w-[32px] h-[32px] rounded-[9px] ${k.bg} flex items-center justify-center shrink-0`}>
+                <k.icon size={16} className={k.iconColor} />
               </div>
-              <span className="text-[11px] text-[var(--text-muted)]">{k.sub.split('•')[0]}</span>
             </div>
-            <div className="text-[11px] text-[var(--text-muted)] uppercase tracking-[0.06em]">{k.label}</div>
-            <div className="text-[18px] font-semibold mt-[2px]">{k.value}</div>
-            <div className="text-[11px] text-[var(--text-secondary)] mt-[2px]">{k.sub}</div>
+            <div className="text-[26px] font-semibold leading-none tracking-tight">{k.value}</div>
+            <div className="text-[12px] text-[var(--text-muted)]">{k.sub}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[16px]">
+      <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="flex flex-col lg:flex-row gap-[12px] justify-between mb-[14px]">
           <div className="relative w-full lg:max-w-[320px]">
-            <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
+            <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search team members"
-              className="w-full h-[38px] pl-[36px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
+              className="w-full h-[38px] pl-[36px] pr-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:bg-white focus:ring-[2px] focus:ring-[var(--primary-soft)] transition-all"
             />
           </div>
           <div className="flex flex-wrap gap-[8px]">
@@ -270,7 +270,7 @@ export function TeamAssignmentsPage({
                 setBranchFilter('All Branches');
                 setWorkloadFilter('All Workloads');
               }}
-              className="h-[36px] px-[12px] rounded-[10px] bg-white border border-[var(--border)] text-[13px]"
+              className="h-[36px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] hover:bg-[#EAECE8] cursor-pointer transition-colors"
             >
               Reset Filters
             </button>
@@ -451,22 +451,24 @@ export function TeamAssignmentsPage({
             </div>
             <div className="p-[20px] flex flex-col gap-[16px]">
               <div>
-                <label htmlFor="assign-lead-select" className="text-[12px] font-medium flex items-center gap-[4px]">
+                <label className="text-[12px] font-medium flex items-center gap-[4px]">
                   Select Lead <span className="text-[#B91C1C]">*</span>
                 </label>
-                <select
-                  id="assign-lead-select"
-                  value={assignLeadForm.leadId}
-                  onChange={e => setAssignLeadForm({ ...assignLeadForm, leadId: e.target.value })}
-                  className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA] ${assignErrors.leadId ? 'border-[#FCA5A5] bg-[#FEF2F2]' : 'border-[var(--border)]'}`}
-                >
-                  <option value="">Choose a lead to assign</option>
-                  {leads.map((l: Lead) => (
-                    <option key={l.id} value={l.id}>
-                      {l.firstName} {l.lastName} • {l.company} • {l.status} • currently {l.assignee}
-                    </option>
-                  ))}
-                </select>
+                <Dropdown
+                  value={
+                    leads.find((l: Lead) => l.id === assignLeadForm.leadId)
+                      ? `${leads.find((l: Lead) => l.id === assignLeadForm.leadId)?.firstName} ${leads.find((l: Lead) => l.id === assignLeadForm.leadId)?.lastName} • ${leads.find((l: Lead) => l.id === assignLeadForm.leadId)?.company}`
+                      : ''
+                  }
+                  placeholder="Choose a lead to assign"
+                  options={leads.map((l: Lead) => `${l.firstName} ${l.lastName} • ${l.company}`)}
+                  onChange={(v: string) => {
+                    const found = leads.find((l: Lead) => `${l.firstName} ${l.lastName} • ${l.company}` === v);
+                    if (found) setAssignLeadForm({ ...assignLeadForm, leadId: found.id });
+                  }}
+                  wrapperClassName="w-full mt-[6px]"
+                  className={`w-full ${assignErrors.leadId ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                />
                 {assignErrors.leadId && (
                   <div className="text-[11px] text-[#B91C1C] mt-[4px] flex items-center gap-[4px]">
                     <AlertCircle size={12} />{assignErrors.leadId}
@@ -474,22 +476,17 @@ export function TeamAssignmentsPage({
                 )}
               </div>
               <div>
-                <label htmlFor="assign-lead-member" className="text-[12px] font-medium flex items-center gap-[4px]">
+                <label className="text-[12px] font-medium flex items-center gap-[4px]">
                   Assign to Team Member <span className="text-[#B91C1C]">*</span>
                 </label>
-                <select
-                  id="assign-lead-member"
+                <Dropdown
                   value={assignLeadForm.memberName}
-                  onChange={e => setAssignLeadForm({ ...assignLeadForm, memberName: e.target.value })}
-                  className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA] ${assignErrors.memberName ? 'border-[#FCA5A5] bg-[#FEF2F2]' : 'border-[var(--border)]'}`}
-                >
-                  <option value="">Select team member</option>
-                  {teamMembers.map((tm: TeamMemberDetail) => (
-                    <option key={tm.id} value={tm.name}>
-                      {tm.name} • {tm.role} • {tm.branch}
-                    </option>
-                  ))}
-                </select>
+                  placeholder="Select team member"
+                  options={teamMembers.map((tm: TeamMemberDetail) => tm.name)}
+                  onChange={(v: string) => setAssignLeadForm({ ...assignLeadForm, memberName: v })}
+                  wrapperClassName="w-full mt-[6px]"
+                  className={`w-full ${assignErrors.memberName ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                />
                 {assignErrors.memberName && (
                   <div className="text-[11px] text-[#B91C1C] mt-[4px] flex items-center gap-[4px]">
                     <AlertCircle size={12} />{assignErrors.memberName}
@@ -530,22 +527,20 @@ export function TeamAssignmentsPage({
             </div>
             <div className="p-[20px] flex flex-col gap-[16px]">
               <div>
-                <label htmlFor="assign-deal-select" className="text-[12px] font-medium flex items-center gap-[4px]">
+                <label className="text-[12px] font-medium flex items-center gap-[4px]">
                   Select Deal <span className="text-[#B91C1C]">*</span>
                 </label>
-                <select
-                  id="assign-deal-select"
-                  value={assignDealForm.dealId}
-                  onChange={e => setAssignDealForm({ ...assignDealForm, dealId: e.target.value })}
-                  className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] focus:outline-none focus:border-[var(--primary)] ${assignErrors.dealId ? 'border-[#FCA5A5] bg-[#FEF2F2]' : 'border-transparent'}`}
-                >
-                  <option value="">Choose a deal to assign</option>
-                  {deals.map((d: Deal) => (
-                    <option key={d.id} value={d.id}>
-                      {d.name} • {d.company} • {d.stage} • currently {d.owner}
-                    </option>
-                  ))}
-                </select>
+                <Dropdown
+                  value={deals.find((d: Deal) => d.id === assignDealForm.dealId)?.name || ''}
+                  placeholder="Choose a deal to assign"
+                  options={deals.map((d: Deal) => d.name)}
+                  onChange={(v: string) => {
+                    const found = deals.find((d: Deal) => d.name === v);
+                    if (found) setAssignDealForm({ ...assignDealForm, dealId: found.id });
+                  }}
+                  wrapperClassName="w-full mt-[6px]"
+                  className={`w-full ${assignErrors.dealId ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                />
                 {assignErrors.dealId && (
                   <div className="text-[11px] text-[#B91C1C] mt-[4px] flex items-center gap-[4px]">
                     <AlertCircle size={12} />{assignErrors.dealId}
@@ -553,22 +548,17 @@ export function TeamAssignmentsPage({
                 )}
               </div>
               <div>
-                <label htmlFor="assign-deal-member" className="text-[12px] font-medium flex items-center gap-[4px]">
+                <label className="text-[12px] font-medium flex items-center gap-[4px]">
                   Assign to Team Member <span className="text-[#B91C1C]">*</span>
                 </label>
-                <select
-                  id="assign-deal-member"
+                <Dropdown
                   value={assignDealForm.memberName}
-                  onChange={e => setAssignDealForm({ ...assignDealForm, memberName: e.target.value })}
-                  className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] focus:outline-none focus:border-[var(--primary)] ${assignErrors.memberName ? 'border-[#FCA5A5] bg-[#FEF2F2]' : 'border-transparent'}`}
-                >
-                  <option value="">Select team member</option>
-                  {teamMembers.map((tm: TeamMemberDetail) => (
-                    <option key={tm.id} value={tm.name}>
-                      {tm.name} • {tm.role} • {tm.branch}
-                    </option>
-                  ))}
-                </select>
+                  placeholder="Select team member"
+                  options={teamMembers.map((tm: TeamMemberDetail) => tm.name)}
+                  onChange={(v: string) => setAssignDealForm({ ...assignDealForm, memberName: v })}
+                  wrapperClassName="w-full mt-[6px]"
+                  className={`w-full ${assignErrors.memberName ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                />
                 {assignErrors.memberName && (
                   <div className="text-[11px] text-[#B91C1C] mt-[4px] flex items-center gap-[4px]">
                     <AlertCircle size={12} />{assignErrors.memberName}
@@ -649,39 +639,29 @@ export function TeamAssignmentsPage({
                 {memberErrors.phone && <div className="text-[11px] text-[#B91C1C] mt-[4px]">{memberErrors.phone}</div>}
               </div>
               <div>
-                <label htmlFor="member-role" className="text-[12px] font-medium flex items-center gap-[4px]">
+                <label className="text-[12px] font-medium flex items-center gap-[4px]">
                   Role <span className="text-[#B91C1C]">*</span>
                 </label>
-                <select
-                  id="member-role"
+                <Dropdown
                   value={memberForm.role}
-                  onChange={e => setMemberForm({ ...memberForm, role: e.target.value as TeamRole })}
-                  className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] focus:outline-none focus:border-[var(--primary)] ${memberErrors.role ? 'border-[#FCA5A5]' : 'border-transparent'}`}
-                >
-                  <option>Admin</option>
-                  <option>Sales Manager</option>
-                  <option>SDR</option>
-                  <option>Account Executive</option>
-                  <option>Support Specialist</option>
-                  <option>Marketing Specialist</option>
-                </select>
+                  onChange={v => setMemberForm({ ...memberForm, role: v as TeamRole })}
+                  options={['Admin', 'Sales Manager', 'SDR', 'Account Executive', 'Support Specialist', 'Marketing Specialist']}
+                  wrapperClassName="w-full mt-[6px]"
+                  className={`w-full ${memberErrors.role ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                />
                 {memberErrors.role && <div className="text-[11px] text-[#B91C1C] mt-[4px]">{memberErrors.role}</div>}
               </div>
               <div>
-                <label htmlFor="member-branch" className="text-[12px] font-medium flex items-center gap-[4px]">
+                <label className="text-[12px] font-medium flex items-center gap-[4px]">
                   Branch <span className="text-[#B91C1C]">*</span>
                 </label>
-                <select
-                  id="member-branch"
+                <Dropdown
                   value={memberForm.branch}
-                  onChange={e => setMemberForm({ ...memberForm, branch: e.target.value })}
-                  className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] focus:outline-none focus:border-[var(--primary)] ${memberErrors.branch ? 'border-[#FCA5A5]' : 'border-transparent'}`}
-                >
-                  <option>Lagos Branch</option>
-                  <option>Abuja Branch</option>
-                  <option>Port Harcourt Branch</option>
-                  <option>Kano Branch</option>
-                </select>
+                  onChange={v => setMemberForm({ ...memberForm, branch: v })}
+                  options={['Lagos Branch', 'Abuja Branch', 'Port Harcourt Branch', 'Kano Branch']}
+                  wrapperClassName="w-full mt-[6px]"
+                  className={`w-full ${memberErrors.branch ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                />
                 {memberErrors.branch && <div className="text-[11px] text-[#B91C1C] mt-[4px]">{memberErrors.branch}</div>}
               </div>
               <div>
@@ -698,18 +678,14 @@ export function TeamAssignmentsPage({
                 {memberErrors.location && <div className="text-[11px] text-[#B91C1C] mt-[4px]">{memberErrors.location}</div>}
               </div>
               <div>
-                <label htmlFor="member-status" className="text-[12px] font-medium">Status</label>
-                <select
-                  id="member-status"
+                <label className="text-[12px] font-medium">Status</label>
+                <Dropdown
                   value={memberForm.status}
-                  onChange={e => setMemberForm({ ...memberForm, status: e.target.value as TeamStatus })}
-                  className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
-                >
-                  <option>Active</option>
-                  <option>Away</option>
-                  <option>Offline</option>
-                  <option>On Leave</option>
-                </select>
+                  onChange={v => setMemberForm({ ...memberForm, status: v as TeamStatus })}
+                  options={['Active', 'Away', 'Offline', 'On Leave']}
+                  wrapperClassName="w-full mt-[6px]"
+                  className="w-full"
+                />
               </div>
               <div className="col-span-2">
                 <label htmlFor="member-bio" className="text-[12px] font-medium">Bio / Notes</label>

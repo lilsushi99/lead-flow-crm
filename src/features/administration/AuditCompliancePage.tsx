@@ -79,34 +79,34 @@ export function AuditCompliancePage({
               setBranchFilter('All Branches');
               setDateFilter('All Time');
             }}
-            className="h-[36px] px-[12px] rounded-[10px] bg-white border border-[var(--border)] text-[13px]"
+            className="h-[36px] px-[12px] rounded-[10px] bg-[var(--input-bg)] text-[13px] hover:bg-[#EAECE8] cursor-pointer whitespace-nowrap"
           >
             Reset Filters
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[12px]">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[16px]">
         {[
-          { label: 'Total Events', value: stats.total, sub: 'All time', icon: ClipboardList },
-          { label: 'Live Activity', value: stats.live, sub: 'Genuinely recorded', icon: Activity },
-          { label: 'Demo Seeded', value: stats.demo, sub: 'Seeded demo records', icon: FileUp },
-          { label: 'Failed Outcomes', value: stats.failed, sub: 'Needs attention', icon: AlertCircle },
+          { label: 'Total Events', value: stats.total, sub: 'All recorded activity', icon: ClipboardList, bg: 'bg-[#EBF5FF]', iconColor: 'text-[#2563EB]' },
+          { label: 'Live Activity', value: stats.live, sub: 'Genuinely recorded', icon: Activity, bg: 'bg-[#EFFBEA]', iconColor: 'text-[#16A34A]' },
+          { label: 'Demo Seeded', value: stats.demo, sub: 'Seeded records', icon: FileUp, bg: 'bg-[#FEF3C7]', iconColor: 'text-[#D97706]' },
+          { label: 'Failed Outcomes', value: stats.failed, sub: 'Needs attention', icon: AlertCircle, bg: 'bg-[#FEE2E2]', iconColor: 'text-[#DC2626]' },
         ].map(k => (
-          <div key={k.label} className="bg-white border border-[var(--border)] rounded-[12px] p-[14px]">
-            <div className="flex items-start justify-between mb-[8px]">
-              <div className="w-[32px] h-[32px] rounded-[8px] bg-[var(--input-bg)] flex items-center justify-center text-[var(--text-secondary)]">
-                <k.icon size={16} className="text-[var(--text-secondary)]" />
+          <div key={k.label} className="bg-white rounded-[14px] p-[20px] flex flex-col gap-[12px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+            <div className="flex items-start justify-between">
+              <span className="text-[13px] text-[var(--text-secondary)] font-medium">{k.label}</span>
+              <div className={`w-[32px] h-[32px] rounded-[9px] ${k.bg} flex items-center justify-center shrink-0`}>
+                <k.icon size={16} className={k.iconColor} />
               </div>
             </div>
-            <div className="text-[11px] text-[var(--text-muted)] uppercase tracking-[0.06em]">{k.label}</div>
-            <div className="text-[18px] font-semibold mt-[2px]">{k.value}</div>
-            <div className="text-[11px] text-[var(--text-secondary)]">{k.sub}</div>
+            <div className="text-[26px] font-semibold leading-none tracking-tight">{k.value}</div>
+            <div className="text-[12px] text-[var(--text-muted)]">{k.sub}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[16px]">
+      <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="flex flex-col lg:flex-row gap-[12px] justify-between mb-[14px]">
           <div className="relative w-full lg:max-w-[320px]">
             <Search size={16} className="absolute left-[12px] top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
