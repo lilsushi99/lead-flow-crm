@@ -9,6 +9,7 @@ import {
   Settings,
   ChevronDown,
   X,
+  Zap,
 } from 'lucide-react';
 import { Logo } from '../shared/Logo';
 
@@ -185,7 +186,7 @@ export function Sidebar({
         style={{ paddingTop: 'var(--safe-area-inset-top)' }}
       >
         {/* Brand / Logo Top Bar */}
-        <div className="h-[56px] px-[16px] flex items-center justify-between border-b border-[var(--border)] shrink-0">
+        <div className="h-[64px] px-[16px] flex items-center justify-between border-b border-[var(--border)] shrink-0">
           <Logo />
           <button
             className="lg:hidden p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] rounded-[6px]"
@@ -314,25 +315,42 @@ export function Sidebar({
 
         {/* BOTTOM SECTION: Lead Credits & Profile Card anchored at bottom with guaranteed breathing room */}
         <div className="shrink-0 p-[12px] border-t border-[var(--border)] bg-white flex flex-col gap-[8px] mt-auto">
+          {/* Nested, double-container Lead Credits Card */}
           <div
             onClick={() => navigateTo('admin-billing', 'Credits & Billing')}
-            className="rounded-[10px] bg-gradient-to-r from-[#181A19] via-[#232724] to-[#121413] py-[5px] px-[10px] cursor-pointer shadow-sm transition-all hover:brightness-110"
+            className="rounded-[14px] bg-[#F4F5F2] p-[6px] cursor-pointer transition-opacity hover:opacity-95"
           >
-            <div className="flex items-center justify-between mb-[2.5px]">
-              <span className="text-[11.5px] font-semibold text-white tracking-tight">Lead Credits</span>
-              <span className="text-[9.5px] font-semibold text-[#76E05B] bg-[#76E05B]/20 px-[5px] py-[0.5px] rounded-[4px]">
-                {Math.round(((5000 - creditBalance) / 5000) * 100)}% used
-              </span>
-            </div>
-            <div className="h-[3.5px] w-full bg-white/20 rounded-full overflow-hidden mb-[2.5px]">
-              <div
-                className="h-full bg-[#76E05B] rounded-full transition-all"
-                style={{ width: `${Math.min(100, Math.max(10, ((5000 - creditBalance) / 5000) * 100))}%` }}
-              />
-            </div>
-            <div className="flex justify-between text-[9.5px] text-white/85 font-medium">
-              <span>{(5000 - creditBalance).toLocaleString()} / 5,000 used</span>
-              <span className="font-semibold text-[#76E05B]">{creditBalance.toLocaleString()} left</span>
+            <div className="rounded-[10px] bg-white p-[10px]">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-[8px]">
+                  <div className="w-[28px] h-[28px] rounded-[7px] bg-[#EFFBEA] flex items-center justify-center shrink-0">
+                    <Zap size={14} className="text-[#16A34A] fill-[#16A34A]" />
+                  </div>
+                  <div className="flex flex-col leading-tight">
+                    <span className="text-[12px] font-bold text-[var(--text-primary)]">Lead Credits</span>
+                    <span className="text-[10px] font-normal text-[var(--text-muted)]">Monthly usage</span>
+                  </div>
+                </div>
+                <span className="text-[12.5px] font-medium text-[var(--text-primary)]">
+                  {Math.round(((5000 - creditBalance) / 5000) * 100)}%
+                </span>
+              </div>
+
+              <div className="h-[4px] w-full bg-[#EAECE8] rounded-full overflow-hidden my-[7px]">
+                <div
+                  className="h-full bg-[#16A34A] rounded-full transition-all"
+                  style={{ width: `${Math.min(100, Math.max(5, ((5000 - creditBalance) / 5000) * 100))}%` }}
+                />
+              </div>
+
+              <div className="flex items-center justify-between text-[10px]">
+                <span className="font-normal text-[var(--text-muted)]">
+                  {(5000 - creditBalance).toLocaleString()} of 5,000 used
+                </span>
+                <span className="font-medium text-[#15803D]">
+                  {creditBalance.toLocaleString()} left
+                </span>
+              </div>
             </div>
           </div>
 
