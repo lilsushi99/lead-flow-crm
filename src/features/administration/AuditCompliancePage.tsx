@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Shield,
   ClipboardList,
   Activity,
   FileUp,
@@ -67,9 +66,6 @@ export function AuditCompliancePage({
           </p>
         </div>
         <div className="flex items-center gap-[8px]">
-          <div className="px-[10px] h-[36px] rounded-[10px] bg-white border border-[var(--border)] text-[12px] flex items-center gap-[6px]">
-            <Shield size={14} />{stats.live} live • {stats.demo} demo
-          </div>
           <button
             onClick={() => {
               setSearch('');
@@ -152,11 +148,11 @@ export function AuditCompliancePage({
                     <div className="flex items-center gap-[6px]">
                       <span className="font-medium">{log.action}</span>
                       {log.isDemo ? (
-                        <span className="text-[10px] px-[6px] py-[1px] rounded-full bg-[#FFF4E5] text-[#92400E] border border-[#FED7AA]">
+                        <span className="text-[10px] px-[6px] py-[1px] rounded-full bg-[#FFF4E5] text-[#92400E]">
                           Demo
                         </span>
                       ) : (
-                        <span className="text-[10px] px-[6px] py-[1px] rounded-full bg-[#EFFBEA] text-[#166534] border border-[#C5E8B7]">
+                        <span className="text-[10px] px-[6px] py-[1px] rounded-full bg-[#EFFBEA] text-[#166534]">
                           Live
                         </span>
                       )}
@@ -217,11 +213,11 @@ export function AuditCompliancePage({
                 <div className="font-semibold text-[15px] flex items-center gap-[8px]">
                   {selected.action}
                   {selected.isDemo ? (
-                    <span className="text-[10px] px-[6px] py-[2px] rounded-full bg-[#FFF4E5] text-[#92400E] border border-[#FED7AA]">
+                    <span className="text-[10px] px-[6px] py-[2px] rounded-full bg-[#FFF4E5] text-[#92400E]">
                       Demo seeded
                     </span>
                   ) : (
-                    <span className="text-[10px] px-[6px] py-[2px] rounded-full bg-[#EFFBEA] text-[#166534] border border-[#C5E8B7]">
+                    <span className="text-[10px] px-[6px] py-[2px] rounded-full bg-[#EFFBEA] text-[#166534]">
                       Live activity
                     </span>
                   )}

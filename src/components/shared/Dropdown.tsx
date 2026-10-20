@@ -10,6 +10,7 @@ interface DropdownProps {
   placeholder?: string;
   className?: string;
   wrapperClassName?: string;
+  menuClassName?: string;
   align?: 'left' | 'right';
   id?: string;
   'aria-label'?: string;
@@ -24,6 +25,7 @@ export function Dropdown({
   placeholder = 'Select...',
   className = '',
   wrapperClassName = '',
+  menuClassName = '',
   align = 'left',
   id,
   'aria-label': ariaLabel,
@@ -89,7 +91,9 @@ export function Dropdown({
           tabIndex={-1}
           className={`absolute top-[calc(100%+6px)] ${
             align === 'right' ? 'right-0' : 'left-0'
-          } min-w-[180px] w-full max-w-[320px] z-50 bg-white rounded-[12px] border border-[var(--border)] shadow-[0_10px_25px_rgba(0,0,0,0.08)] p-[6px] overflow-hidden max-h-[260px] overflow-y-auto`}
+          } min-w-[180px] z-50 bg-white rounded-[12px] border border-[var(--border)] shadow-[0_10px_25px_rgba(0,0,0,0.08)] p-[6px] overflow-hidden max-h-[260px] overflow-y-auto ${
+            menuClassName ? menuClassName : 'w-full max-w-[320px]'
+          }`}
         >
           {options.map((opt) => {
             const isSelected = value === opt;

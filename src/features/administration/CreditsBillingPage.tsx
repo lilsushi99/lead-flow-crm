@@ -141,14 +141,14 @@ export function CreditsBillingPage({
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-[16px]">
-        <div className="lg:col-span-2 bg-white border border-[var(--border)] rounded-[16px] p-[20px]">
+        <div className="lg:col-span-2 bg-white rounded-[16px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="flex justify-between items-start mb-[16px]">
             <div>
               <div className="text-[12px] uppercase tracking-[0.06em] text-[var(--text-muted)] font-medium">Current Credit Balance</div>
               <div className="flex items-baseline gap-[8px] mt-[6px]">
                 <span className="text-[32px] font-semibold tracking-tight">{balance.toLocaleString()}</span>
                 <span className="text-[14px] text-[var(--text-secondary)]">credits</span>
-                <span className="ml-[8px] text-[11px] px-[8px] py-[2px] rounded-full bg-[#EFFBEA] text-[#166534] border border-[#C5E8B7]">Demo balance</span>
+                <span className="ml-[8px] text-[11px] px-[8px] py-[2px] rounded-full bg-[#EFFBEA] text-[#166534]">Demo balance</span>
               </div>
             </div>
             <div className="text-right">
@@ -188,7 +188,7 @@ export function CreditsBillingPage({
             </div>
           </div>
         </div>
-        <div className="bg-white border border-[var(--border)] rounded-[16px] p-[20px]">
+        <div className="bg-white rounded-[16px] p-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
           <div className="text-[13px] font-semibold mb-[12px]">Quick Actions</div>
           <div className="flex flex-col gap-[10px]">
             <button
@@ -214,7 +214,7 @@ export function CreditsBillingPage({
         </div>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[16px]">
+      <div className="bg-white rounded-[14px] p-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
         <div className="flex flex-col lg:flex-row gap-[12px] justify-between mb-[14px]">
           <div className="flex items-center gap-[8px]">
             <h2 className="text-[14px] font-semibold">Available Credit Packages</h2>
@@ -271,7 +271,7 @@ export function CreditsBillingPage({
         </div>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[16px]">
+      <div className="bg-white rounded-[14px] p-[16px] shadow-sm">
         <div className="flex flex-col lg:flex-row gap-[12px] justify-between mb-[14px]">
           <div>
             <h2 className="text-[14px] font-semibold">Transaction History</h2>
@@ -330,9 +330,13 @@ export function CreditsBillingPage({
                   <td className="py-[10px] px-[10px] text-[12px]">
                     <div className="flex items-center gap-[6px]">
                       {tx.activity}
-                      {tx.isDemo && (
-                        <span className="text-[10px] px-[6px] py-[1px] rounded-full bg-[#FFF4E5] text-[#92400E] border border-[#FED7AA]">
+                      {tx.isDemo ? (
+                        <span className="text-[10px] px-[6px] py-[1px] rounded-full bg-[#FFF4E5] text-[#92400E]">
                           Demo
+                        </span>
+                      ) : (
+                        <span className="text-[10px] px-[6px] py-[1px] rounded-full bg-[#EFFBEA] text-[#166534]">
+                          Live
                         </span>
                       )}
                     </div>
@@ -372,20 +376,29 @@ export function CreditsBillingPage({
             </div>
             <div className="p-[20px] flex flex-col gap-[16px]">
               <div>
-                <label htmlFor="purchase-package" className="text-[12px] font-medium">Selected Package *</label>
-                <select
-                  id="purchase-package"
-                  value={selectedPackage?.id || ''}
-                  onChange={e => setSelectedPackage(packages.find(p => p.id === e.target.value) || null)}
-                  className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px] focus:outline-none focus:border-[var(--primary)]"
-                >
-                  <option value="">Select a package</option>
-                  {packages.map(p => (
-                    <option key={p.id} value={p.id}>
-                      {p.name} — {p.credits} credits — ₦{p.priceNGN.toLocaleString()} (Demo)
-                    </option>
-                  ))}
-                </select>
+                <label className="text-[12px] font-medium">Selected Package *</label>
+                <div className="mt-[6px]">
+                  <Dropdown
+                    placeholder="Select a package"
+                    value={
+                      selectedPackage
+                        ? `${selectedPackage.name} — ${selectedPackage.credits} credits — ₦${selectedPackage.priceNGN.toLocaleString()} (Demo)`
+                        : ''
+                    }
+                    options={packages.map(
+                      p => `${p.name} — ${p.credits} credits — ₦${p.priceNGN.toLocaleString()} (Demo)`
+                    )}
+                    onChange={selectedStr => {
+                      const matched = packages.find(
+                        p => `${p.name} — ${p.credits} credits — ₦${p.priceNGN.toLocaleString()} (Demo)` === selectedStr
+                      );
+                      setSelectedPackage(matched || null);
+                    }}
+                    wrapperClassName="w-full"
+                    className="w-full h-[40px]"
+                    menuClassName="w-full"
+                  />
+                </div>
               </div>
               {selectedPackage && (
                 <div className="bg-[var(--input-bg)] rounded-[10px] p-[12px] text-[12px]">

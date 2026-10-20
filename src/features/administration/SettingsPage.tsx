@@ -9,6 +9,7 @@ import {
   AuditLog,
 } from '../../types/crm';
 import { StatusBadge } from '../../components/shared/StatusBadge';
+import { Dropdown } from '../../components/shared/Dropdown';
 
 interface SettingsPageProps {
   workspaceSettings: WorkspaceSettings;
@@ -151,7 +152,7 @@ export function SettingsPage({
         </p>
       </div>
 
-      <div className="bg-white border border-[var(--border)] rounded-[14px] p-[8px] flex gap-[6px] w-fit overflow-auto">
+      <div className="bg-white shadow-sm rounded-[14px] p-[8px] flex gap-[6px] w-fit overflow-auto">
         {(['Workspace', 'Profile', 'Team & Permissions', 'Notifications', 'Security & Preferences'] as const).map(tab => (
           <button
             key={tab}
@@ -175,7 +176,7 @@ export function SettingsPage({
       )}
 
       {activeTab === 'Workspace' && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+        <div className="bg-white shadow-sm rounded-[14px] p-[20px]">
           <h2 className="text-[15px] font-semibold mb-[4px]">Workspace Settings</h2>
           <p className="text-[12px] text-[var(--text-secondary)] mb-[16px]">
             Update workspace name, branding details, and basic workspace preferences. Organized for easy editing without scrolling through one enormous form.
@@ -224,60 +225,65 @@ export function SettingsPage({
               />
             </div>
             <div>
-              <label htmlFor="ws-branch" className="text-[12px] font-medium text-[var(--text-primary)]">Default Branch *</label>
-              <select
-                id="ws-branch"
-                value={workspaceForm.defaultBranch}
-                onChange={e => setWorkspaceForm({ ...workspaceForm, defaultBranch: e.target.value })}
-                className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA] ${errors.defaultBranch ? 'border-[#FCA5A5] bg-[#FEF2F2]' : 'border-[var(--border)]'}`}
-              >
-                <option value="">Select default branch</option>
-                {branches.filter(b => b !== 'All Branches').map(b => (
-                  <option key={b} value={b}>{b}</option>
-                ))}
-              </select>
+              <label className="text-[12px] font-medium text-[var(--text-primary)]">Default Branch *</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="ws-branch"
+                  placeholder="Select default branch"
+                  value={workspaceForm.defaultBranch}
+                  options={branches.filter(b => b !== 'All Branches')}
+                  onChange={val => setWorkspaceForm({ ...workspaceForm, defaultBranch: val })}
+                  wrapperClassName="w-full"
+                  className={`w-full h-[40px] ${errors.defaultBranch ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                  menuClassName="w-full"
+                />
+              </div>
               {errors.defaultBranch && <div className="text-[11px] text-[#B91C1C] mt-[4px]">{errors.defaultBranch}</div>}
             </div>
             <div>
-              <label htmlFor="ws-currency" className="text-[12px] font-medium text-[var(--text-primary)]">Default Currency</label>
-              <select
-                id="ws-currency"
-                value={workspaceForm.defaultCurrency}
-                onChange={e => setWorkspaceForm({ ...workspaceForm, defaultCurrency: e.target.value })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-[var(--border)] text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
-              >
-                <option>NGN (₦)</option>
-                <option>USD ($)</option>
-                <option>EUR (€)</option>
-                <option>GBP (£)</option>
-              </select>
+              <label className="text-[12px] font-medium text-[var(--text-primary)]">Default Currency</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="ws-currency"
+                  placeholder="Select currency"
+                  value={workspaceForm.defaultCurrency}
+                  options={['NGN (₦)', 'USD ($)', 'EUR (€)', 'GBP (£)']}
+                  onChange={val => setWorkspaceForm({ ...workspaceForm, defaultCurrency: val })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="ws-timezone" className="text-[12px] font-medium text-[var(--text-primary)]">Timezone</label>
-              <select
-                id="ws-timezone"
-                value={workspaceForm.timezone}
-                onChange={e => setWorkspaceForm({ ...workspaceForm, timezone: e.target.value })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-[var(--border)] text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
-              >
-                <option>Africa/Lagos (WAT, UTC+1)</option>
-                <option>Africa/Cairo (EET, UTC+2)</option>
-                <option>Europe/London (GMT)</option>
-                <option>America/New_York (EST)</option>
-              </select>
+              <label className="text-[12px] font-medium text-[var(--text-primary)]">Timezone</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="ws-timezone"
+                  placeholder="Select timezone"
+                  value={workspaceForm.timezone}
+                  options={['Africa/Lagos (WAT, UTC+1)', 'Africa/Cairo (EET, UTC+2)', 'Europe/London (GMT)', 'America/New_York (EST)']}
+                  onChange={val => setWorkspaceForm({ ...workspaceForm, timezone: val })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="ws-date" className="text-[12px] font-medium text-[var(--text-primary)]">Date Format</label>
-              <select
-                id="ws-date"
-                value={workspaceForm.dateFormat}
-                onChange={e => setWorkspaceForm({ ...workspaceForm, dateFormat: e.target.value })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-[var(--border)] text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
-              >
-                <option>DD MMM YYYY</option>
-                <option>MM/DD/YYYY</option>
-                <option>YYYY-MM-DD</option>
-              </select>
+              <label className="text-[12px] font-medium text-[var(--text-primary)]">Date Format</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="ws-date"
+                  placeholder="Select date format"
+                  value={workspaceForm.dateFormat}
+                  options={['DD MMM YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD']}
+                  onChange={val => setWorkspaceForm({ ...workspaceForm, dateFormat: val })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
           </div>
           <div className="flex justify-end gap-[8px] mt-[20px]">
@@ -292,7 +298,7 @@ export function SettingsPage({
       )}
 
       {activeTab === 'Profile' && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+        <div className="bg-white shadow-sm rounded-[14px] p-[20px]">
           <h2 className="text-[15px] font-semibold mb-[4px]">Profile Settings</h2>
           <p className="text-[12px] text-[var(--text-secondary)] mb-[16px]">
             Personal display name, email display, and profile preferences. Email display is shown as read-only where appropriate.
@@ -341,30 +347,34 @@ export function SettingsPage({
               />
             </div>
             <div>
-              <label htmlFor="profile-lang" className="text-[12px] font-medium text-[var(--text-primary)]">Language Preference</label>
-              <select
-                id="profile-lang"
-                value={profileForm.language}
-                onChange={e => setProfileForm({ ...profileForm, language: e.target.value })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-[var(--border)] text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
-              >
-                <option>English (EN)</option>
-                <option>French (FR)</option>
-                <option>Yoruba</option>
-              </select>
+              <label className="text-[12px] font-medium text-[var(--text-primary)]">Language Preference</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="profile-lang"
+                  placeholder="Select language"
+                  value={profileForm.language}
+                  options={['English (EN)', 'French (FR)', 'Yoruba']}
+                  onChange={val => setProfileForm({ ...profileForm, language: val })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="profile-tz" className="text-[12px] font-medium text-[var(--text-primary)]">Personal Timezone</label>
-              <select
-                id="profile-tz"
-                value={profileForm.personalTimezone}
-                onChange={e => setProfileForm({ ...profileForm, personalTimezone: e.target.value })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-[var(--border)] text-[13px] text-[var(--text-primary)] cursor-pointer focus:outline-none focus:border-[#76E05B] focus:ring-[2px] focus:ring-[#EFFBEA]"
-              >
-                <option>Africa/Lagos (WAT, UTC+1)</option>
-                <option>Africa/Cairo (EET, UTC+2)</option>
-                <option>Europe/London (GMT)</option>
-              </select>
+              <label className="text-[12px] font-medium text-[var(--text-primary)]">Personal Timezone</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="profile-tz"
+                  placeholder="Select timezone"
+                  value={profileForm.personalTimezone}
+                  options={['Africa/Lagos (WAT, UTC+1)', 'Africa/Cairo (EET, UTC+2)', 'Europe/London (GMT)']}
+                  onChange={val => setProfileForm({ ...profileForm, personalTimezone: val })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <div className="lg:col-span-2">
               <label htmlFor="profile-bio" className="text-[12px] font-medium">Bio / Personal Notes</label>
@@ -390,7 +400,7 @@ export function SettingsPage({
 
       {activeTab === 'Team & Permissions' && (
         <div className="flex flex-col gap-[16px]">
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+          <div className="bg-white shadow-sm rounded-[14px] p-[20px]">
             <h2 className="text-[15px] font-semibold mb-[4px]">Team & Permissions — Roles Overview</h2>
             <p className="text-[12px] text-[var(--text-secondary)] mb-[16px]">
               Available roles and permission summaries, consistent with existing Workspace team records. Roles define what members can view and edit across branches.
@@ -413,7 +423,7 @@ export function SettingsPage({
               ))}
             </div>
           </div>
-          <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+          <div className="bg-white shadow-sm rounded-[14px] p-[20px]">
             <h3 className="text-[13px] font-semibold mb-[12px]">Current Team Members — Branch & Role Consistency</h3>
             <div className="overflow-auto">
               <table className="w-full text-left">
@@ -457,7 +467,7 @@ export function SettingsPage({
       )}
 
       {activeTab === 'Notifications' && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+        <div className="bg-white shadow-sm rounded-[14px] p-[20px]">
           <h2 className="text-[15px] font-semibold mb-[4px]">Notification Preferences</h2>
           <p className="text-[12px] text-[var(--text-secondary)] mb-[16px]">
             Configurable notification preferences for leads, deals, credits, and system events. Choose how you want to be notified.
@@ -547,63 +557,71 @@ export function SettingsPage({
       )}
 
       {activeTab === 'Security & Preferences' && (
-        <div className="bg-white border border-[var(--border)] rounded-[14px] p-[20px]">
+        <div className="bg-white shadow-sm rounded-[14px] p-[20px]">
           <h2 className="text-[15px] font-semibold mb-[4px]">Security & Preferences</h2>
           <p className="text-[12px] text-[var(--text-secondary)] mb-[16px]">
             Relevant interface and account preferences supported by the existing frontend. No fake authentication, password changes, or security guarantees are implemented.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px]">
             <div>
-              <label htmlFor="sec-landing" className="text-[12px] font-medium">Default Landing Page</label>
-              <select
-                id="sec-landing"
-                value={securityForm.defaultLandingPage}
-                onChange={e => setSecurityForm({ ...securityForm, defaultLandingPage: e.target.value })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px]"
-              >
-                <option>Overview</option>
-                <option>All Leads</option>
-                <option>Sales Pipeline</option>
-                <option>Credits & Billing</option>
-              </select>
+              <label className="text-[12px] font-medium">Default Landing Page</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="sec-landing"
+                  placeholder="Select landing page"
+                  value={securityForm.defaultLandingPage}
+                  options={['Overview', 'All Leads', 'Sales Pipeline', 'Credits & Billing']}
+                  onChange={val => setSecurityForm({ ...securityForm, defaultLandingPage: val })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="sec-density" className="text-[12px] font-medium">Interface Density</label>
-              <select
-                id="sec-density"
-                value={securityForm.density}
-                onChange={e => setSecurityForm({ ...securityForm, density: e.target.value as any })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px]"
-              >
-                <option>Comfortable</option>
-                <option>Compact</option>
-              </select>
+              <label className="text-[12px] font-medium">Interface Density</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="sec-density"
+                  placeholder="Select density"
+                  value={securityForm.density}
+                  options={['Comfortable', 'Compact']}
+                  onChange={val => setSecurityForm({ ...securityForm, density: val as any })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="sec-time" className="text-[12px] font-medium">Time Format</label>
-              <select
-                id="sec-time"
-                value={securityForm.timeFormat}
-                onChange={e => setSecurityForm({ ...securityForm, timeFormat: e.target.value as any })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px]"
-              >
-                <option>12h</option>
-                <option>24h</option>
-              </select>
+              <label className="text-[12px] font-medium">Time Format</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="sec-time"
+                  placeholder="Select format"
+                  value={securityForm.timeFormat}
+                  options={['12h', '24h']}
+                  onChange={val => setSecurityForm({ ...securityForm, timeFormat: val as any })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="sec-timeout" className="text-[12px] font-medium">Inactivity Timeout</label>
-              <select
-                id="sec-timeout"
-                value={securityForm.activityTimeout}
-                onChange={e => setSecurityForm({ ...securityForm, activityTimeout: e.target.value })}
-                className="mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border border-transparent text-[13px]"
-              >
-                <option>15 minutes</option>
-                <option>30 minutes</option>
-                <option>60 minutes</option>
-                <option>Never</option>
-              </select>
+              <label className="text-[12px] font-medium">Inactivity Timeout</label>
+              <div className="mt-[6px]">
+                <Dropdown
+                  id="sec-timeout"
+                  placeholder="Select timeout"
+                  value={securityForm.activityTimeout}
+                  options={['15 minutes', '30 minutes', '60 minutes', 'Never']}
+                  onChange={val => setSecurityForm({ ...securityForm, activityTimeout: val })}
+                  wrapperClassName="w-full"
+                  className="w-full h-[40px]"
+                  menuClassName="w-full"
+                />
+              </div>
             </div>
             <label className="flex items-center gap-[8px] p-[12px] border border-[var(--border)] rounded-[10px]">
               <input

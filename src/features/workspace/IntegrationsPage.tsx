@@ -503,17 +503,14 @@ export function IntegrationsPage() {
                     {field.label}{field.required && <span className="text-[#B91C1C]">*</span>}
                   </label>
                   {field.type === 'select' ? (
-                    <select
-                      id={`intg-${selected.id}-${field.id}`}
+                    <Dropdown
                       value={configForm[field.id] || ''}
-                      onChange={e => setConfigForm({ ...configForm, [field.id]: e.target.value })}
-                      className={`mt-[6px] w-full h-[40px] px-[12px] rounded-[10px] bg-[var(--input-bg)] border text-[13px] focus:outline-none focus:border-[var(--primary)] ${configErrors[field.id] ? 'border-[#FCA5A5] bg-[#FEF2F2]' : 'border-transparent'}`}
-                    >
-                      <option value="">{field.placeholder || `Select ${field.label}`}</option>
-                      {field.options.map((opt: string) => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
+                      placeholder={field.placeholder || `Select ${field.label}`}
+                      options={field.options}
+                      onChange={v => setConfigForm({ ...configForm, [field.id]: v })}
+                      wrapperClassName="w-full mt-[6px]"
+                      className={`w-full ${configErrors[field.id] ? 'border-[#FCA5A5] bg-[#FEF2F2]' : ''}`}
+                    />
                   ) : field.type === 'textarea' ? (
                     <textarea
                       id={`intg-${selected.id}-${field.id}`}

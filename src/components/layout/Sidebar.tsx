@@ -313,26 +313,26 @@ export function Sidebar({
         </div>
 
         {/* BOTTOM SECTION: Lead Credits & Profile Card anchored at bottom with guaranteed breathing room */}
-        <div className="shrink-0 p-[12px] border-t border-[var(--border)] bg-white flex flex-col gap-[10px] mt-auto">
+        <div className="shrink-0 p-[12px] border-t border-[var(--border)] bg-white flex flex-col gap-[8px] mt-auto">
           <div
             onClick={() => navigateTo('admin-billing', 'Credits & Billing')}
-            className="rounded-[10px] border border-[var(--border)] bg-[var(--bg)] p-[10px] cursor-pointer hover:border-[#C5E8B7] transition-colors"
+            className="rounded-[10px] bg-gradient-to-r from-[#181A19] via-[#232724] to-[#121413] py-[5px] px-[10px] cursor-pointer shadow-sm transition-all hover:brightness-110"
           >
-            <div className="flex items-center justify-between mb-[6px]">
-              <span className="text-[12.5px] font-semibold text-[var(--text-primary)]">Lead Credits</span>
-              <span className="text-[10.5px] font-medium text-[#166534] bg-[#EFFBEA] px-[6px] py-[1.5px] rounded-[5px]">
+            <div className="flex items-center justify-between mb-[2.5px]">
+              <span className="text-[11.5px] font-semibold text-white tracking-tight">Lead Credits</span>
+              <span className="text-[9.5px] font-semibold text-[#76E05B] bg-[#76E05B]/20 px-[5px] py-[0.5px] rounded-[4px]">
                 {Math.round(((5000 - creditBalance) / 5000) * 100)}% used
               </span>
             </div>
-            <div className="h-[5px] w-full bg-[#E7EAE5] rounded-full overflow-hidden mb-[6px]">
+            <div className="h-[3.5px] w-full bg-white/20 rounded-full overflow-hidden mb-[2.5px]">
               <div
                 className="h-full bg-[#76E05B] rounded-full transition-all"
                 style={{ width: `${Math.min(100, Math.max(10, ((5000 - creditBalance) / 5000) * 100))}%` }}
               />
             </div>
-            <div className="flex justify-between text-[10.5px] text-[var(--text-muted)]">
+            <div className="flex justify-between text-[9.5px] text-white/85 font-medium">
               <span>{(5000 - creditBalance).toLocaleString()} / 5,000 used</span>
-              <span className="font-semibold text-[#166534]">{creditBalance.toLocaleString()} left</span>
+              <span className="font-semibold text-[#76E05B]">{creditBalance.toLocaleString()} left</span>
             </div>
           </div>
 
