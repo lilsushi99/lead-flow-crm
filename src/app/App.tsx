@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
-import { AppRouter } from './routes';
+import { AppRouter, getPageIdByPath, getPathByPageId, getRouteById } from './routes';
 import { initialLeads, branches } from '../data/mock/leads';
 import { initialTasks } from '../data/mock/leads';
 import {
@@ -49,7 +50,36 @@ import {
 } from '../types/crm';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('overview');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Clean URL-derived active page
+  const currentPage = useMemo(() => {
+    return getPageIdByPath(location.pathname);
+  }, [location.pathname]);
+
+  const setCurrentPage = (pageId: string) => {
+    const targetPath = getPathByPageId(pageId);
+    navigate(targetPath);
+  };
+
+  // Sync document title and handle legacy hash cleanup if arrived via old bookmark
+  useEffect(() => {
+    if (window.location.hash) {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      const matchedPage = getPageIdByPath('/' + hash) || getPageIdByPath(hash);
+      const targetPath = getPathByPageId(matchedPage);
+      navigate(targetPath, { replace: true });
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    const route = getRouteById(currentPage);
+    if (route) {
+      document.title = `LeadFlow CRM - ${route.label}`;
+    }
+  }, [currentPage]);
+
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     'lead-intelligence': true,
     outreach: true,

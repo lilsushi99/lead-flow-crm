@@ -162,13 +162,9 @@ export function Sidebar({
   const toggleParent = (id: string) =>
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
 
-  const navigateTo = (pageId: string, label: string) => {
+  const navigateTo = (pageId: string, _label?: string) => {
     setCurrentPage(pageId);
     setMobileOpen(false);
-    try {
-      window.location.hash = pageId;
-      document.title = `LeadFlow CRM - ${label}`;
-    } catch {}
   };
 
   return (
@@ -315,35 +311,35 @@ export function Sidebar({
 
         {/* BOTTOM SECTION: Lead Credits & Profile Card anchored at bottom with guaranteed breathing room */}
         <div className="shrink-0 p-[12px] border-t border-[var(--border)] bg-white flex flex-col gap-[8px] mt-auto">
-          {/* Nested, double-container Lead Credits Card */}
+          {/* Nested, double-container Lead Credits Card - Compact Height */}
           <div
             onClick={() => navigateTo('admin-billing', 'Credits & Billing')}
-            className="rounded-[14px] bg-[#F4F5F2] p-[6px] cursor-pointer transition-opacity hover:opacity-95"
+            className="rounded-[12px] bg-[#F4F5F2] py-[4px] px-[5px] cursor-pointer transition-opacity hover:opacity-95"
           >
-            <div className="rounded-[10px] bg-white p-[10px]">
+            <div className="rounded-[9px] bg-white py-[4.5px] px-[8px]">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-[8px]">
-                  <div className="w-[28px] h-[28px] rounded-[7px] bg-[#EFFBEA] flex items-center justify-center shrink-0">
-                    <Zap size={14} className="text-[#16A34A] fill-[#16A34A]" />
+                <div className="flex items-center gap-[6px]">
+                  <div className="w-[22px] h-[22px] rounded-[5px] bg-[#EFFBEA] flex items-center justify-center shrink-0">
+                    <Zap size={12} className="text-[#16A34A] fill-[#16A34A]" />
                   </div>
                   <div className="flex flex-col leading-tight">
-                    <span className="text-[12px] font-bold text-[var(--text-primary)]">Lead Credits</span>
-                    <span className="text-[10px] font-normal text-[var(--text-muted)]">Monthly usage</span>
+                    <span className="text-[11px] font-bold text-[var(--text-primary)]">Lead Credits</span>
+                    <span className="text-[9px] font-normal text-[var(--text-muted)]">Monthly usage</span>
                   </div>
                 </div>
-                <span className="text-[12.5px] font-medium text-[var(--text-primary)]">
+                <span className="text-[11.5px] font-medium text-[var(--text-primary)]">
                   {Math.round(((5000 - creditBalance) / 5000) * 100)}%
                 </span>
               </div>
 
-              <div className="h-[4px] w-full bg-[#EAECE8] rounded-full overflow-hidden my-[7px]">
+              <div className="h-[3px] w-full bg-[#EAECE8] rounded-full overflow-hidden my-[3px]">
                 <div
                   className="h-full bg-[#16A34A] rounded-full transition-all"
                   style={{ width: `${Math.min(100, Math.max(5, ((5000 - creditBalance) / 5000) * 100))}%` }}
                 />
               </div>
 
-              <div className="flex items-center justify-between text-[10px]">
+              <div className="flex items-center justify-between text-[9px] leading-tight">
                 <span className="font-normal text-[var(--text-muted)]">
                   {(5000 - creditBalance).toLocaleString()} of 5,000 used
                 </span>
